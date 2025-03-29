@@ -1,4 +1,4 @@
-import { Search, X } from "lucide-react"
+// import { Search, X } from "lucide-react"
 import type { User, Message, ChatTab } from "../lib/types"
 import ChatCard from "./ChatCard"
 import SearchBar from "@/components/search-bar"
