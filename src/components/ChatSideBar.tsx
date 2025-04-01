@@ -1,36 +1,28 @@
 // import { Search, X } from "lucide-react"
-import type { User, Message, ChatTab } from "../lib/types"
+import type { User, Message } from "../lib/types"
 import ChatCard from "./ChatCard"
-import SearchBar from "@/components/search-bar"
+import SearchBar from "@/components/SearchBar"
 import { cn } from "../lib/utils"
+import { useChatStore } from "../lib/store"
+import { SquarePen } from "lucide-react"
 
 interface ChatSidebarProps {
-  activeTab: ChatTab
-  setActiveTab: (tab: ChatTab) => void
   users: User[]
   messages: Message[]
-  searchQuery: string
-  setSearchQuery: (query: string) => void
-  filter: "all" | "unread" | "archived"
-  setFilter: (filter: "all" | "unread" | "archived") => void
-  selectedUser: User | null
-  onUserSelect: (user: User) => void
-  onNewChat: () => void
 }
 
-export default function ChatSidebar({
-  activeTab,
-  setActiveTab,
-  users,
-  messages,
-  searchQuery,
-  setSearchQuery,
-  filter,
-  setFilter,
-  selectedUser,
-  onUserSelect,
-  onNewChat,
-}: ChatSidebarProps) {
+export default function ChatSidebar({ users, messages }: ChatSidebarProps) {
+  const {
+    activeTab,
+    setActiveTab,
+    searchQuery,
+    filter,
+    setFilter,
+    selectedUser,
+    handleUserSelect,
+    handleNewChat
+  } = useChatStore()
+
   // Filter and sort messages
   const filteredMessages = messages
     .filter((message) => {
@@ -40,8 +32,9 @@ export default function ChatSidebar({
       // Apply search filter
       if (
         searchQuery &&
-        !user.name.toLowerCase().includes(searchQuery.toLowerCase()) &&
-        !message.text.toLowerCase().includes(searchQuery.toLowerCase())
+        !user.name.toLowerCase().includes(searchQuery.toLowerCase()) 
+        // &&
+        // !message.text.toLowerCase().includes(searchQuery.toLowerCase())
       ) {
         return false
       }
@@ -57,32 +50,36 @@ export default function ChatSidebar({
   return (
     <div className="min-w-80 shadow-sm rounded-sm flex flex-col h-full bg-white">
       {/* Tabs -- (Chat & Email) */}
-      <div className="flex border-gray-200 p-3">
-        <button
-          className={cn(
-            "flex-1 rounded-bl-lg rounded-tl-lg py-2 font-semibold transition-all ",
-            activeTab === "chat" ? "bg-blue-600 text-white" : "text-gray-800 bg-blue-200 cursor-pointer hover:opacity-70",
-          )}
-          onClick={() => setActiveTab("chat")}
-        >
-          Chat
-        </button>
-        <button
-          className={cn(
-            "flex-1 rounded-br-lg rounded-tr-lg py-2 font-semibold transition-all",
-            activeTab === "email" ? "bg-blue-600 text-white" : "text-gray-800 bg-blue-200 cursor-pointer hover:opacity-70",
-          )}
-          onClick={() => setActiveTab("email")}
-        >
-          Email
-        </button>
-        <button className="w-10 flex items-center justify-center text-gray-500 cursor-pointer" onClick={onNewChat}>
-          <div className="w-6 h-6 rounded-full bg-blue-600 text-white flex items-center justify-center">+</div>
+      <div className="flex justify-between space-x-2 p-3">
+        <div className="flex w-[80%]">
+          <button
+            className={cn(
+              "flex-1 rounded-bl-lg rounded-tl-lg py-1 font-semibold transition-all ",
+              activeTab === "chat" ? "bg-blue-600 text-white" : "text-gray-800 bg-blue-200 cursor-pointer hover:opacity-70",
+            )}
+            onClick={() => setActiveTab("chat")}
+          >
+            Chat
+          </button>
+          <button
+            className={cn(
+              "flex-1 rounded-br-lg rounded-tr-lg py-1 font-semibold transition-all",
+              activeTab === "email" ? "bg-blue-600 text-white" : "text-gray-800 bg-blue-200 cursor-pointer hover:opacity-70",
+            )}
+            onClick={() => setActiveTab("email")}
+          >
+            Email
+          </button>
+        </div>
+        <button className="flex items-center justify-center text-gray-500 cursor-pointer transition-all hover:opacity-70" onClick={handleNewChat}>
+          <div className="rounded-full p-1.5 bg-blue-600 text-white flex items-center justify-center">
+            <SquarePen className="w-4 h-4"  />
+          </div>
         </button>
       </div>
 
       {/* Search bar */}
-      <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
+      <SearchBar />
 
       {/* Filters -- (All, Uread & Archived) */}
       <div className="flex border-b border-gray-200">
@@ -114,7 +111,7 @@ export default function ChatSidebar({
           Archived
         </button>
       </div>
-  
+
       {/* Chat list */}
       <div className="flex-1 overflow-y-auto">
         {filteredMessages.map((message) => {
@@ -126,7 +123,7 @@ export default function ChatSidebar({
               key={message.id}
               user={user}
               message={message}
-              onUserSelect={onUserSelect}
+              onUserSelect={handleUserSelect}
               selectedUser={selectedUser}
             />
           )

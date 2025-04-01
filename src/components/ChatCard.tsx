@@ -26,9 +26,9 @@ const ChatCard = ({selectedUser, message, user, onUserSelect}: ChatCardProps) =>
                 <div className="flex justify-between items-start">
                   <div className="flex items-center">
                     <span className="font-semibold text-sm truncate text-gray-800">{user.name}</span>
-                    {message.isNew && (
+                    {/* {message.isNew && (
                       <span className="ml-2 text-xs bg-gray-200 px-1.5 py-0.5 rounded text-gray-600">New</span>
-                    )}
+                    )} */}
                   </div>
                   <span className="text-xs text-gray-500">{message.time}</span>
                 </div>
