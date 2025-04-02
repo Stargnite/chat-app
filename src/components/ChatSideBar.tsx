@@ -48,19 +48,21 @@ export default function ChatSidebar({ users, messages }: ChatSidebarProps) {
     .sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime())
 
   return (
-    <div className="min-w-80 shadow-sm rounded-sm flex flex-col h-full bg-white">
-      {/* Tabs -- (Chat & Email) */}
-      <div className="flex justify-between space-x-2 p-3">
-        <div className="flex w-[80%]">
+    <div className="min-w-[370px] shadow-lg rounded-sm flex flex-col h-full bg-white">
+      
+      <div className="flex justify-between space-x-2 py-4 px-5">
+        {/* Tabs -- (Chat & Email) */}
+        <div className="flex w-[260px] h-[36px] poppins-semibold">
           <button
             className={cn(
-              "flex-1 rounded-bl-lg rounded-tl-lg py-1 font-semibold transition-all ",
+              "flex-1 rounded-bl-lg rounded-tl-lg py-1 font-semibold transition-all",
               activeTab === "chat" ? "bg-blue-600 text-white" : "text-gray-800 bg-blue-200 cursor-pointer hover:opacity-70",
             )}
             onClick={() => setActiveTab("chat")}
           >
             Chat
           </button>
+
           <button
             className={cn(
               "flex-1 rounded-br-lg rounded-tr-lg py-1 font-semibold transition-all",
@@ -71,8 +73,9 @@ export default function ChatSidebar({ users, messages }: ChatSidebarProps) {
             Email
           </button>
         </div>
+        {/* Add new chat button */}
         <button className="flex items-center justify-center text-gray-500 cursor-pointer transition-all hover:opacity-70" onClick={handleNewChat}>
-          <div className="rounded-full p-1.5 bg-blue-600 text-white flex items-center justify-center">
+          <div className="rounded-full w-7 h-7 bg-blue-600 text-white flex items-center justify-center">
             <SquarePen className="w-4 h-4"  />
           </div>
         </button>
@@ -82,11 +85,11 @@ export default function ChatSidebar({ users, messages }: ChatSidebarProps) {
       <SearchBar />
 
       {/* Filters -- (All, Uread & Archived) */}
-      <div className="flex border-b border-gray-200">
+      <div className="flex w-full max-w-[266.5px] self-center">
         <button
           className={cn(
-            "flex-1 py-2 text-xs font-medium",
-            filter === "all" ? "text-blue-800 border-b-2 border-blue-800 overflow-hidden" : "text-gray-500",
+            "flex-1 py-2 font-medium transition-all",
+            filter === "all" ? "text-blue-500 border-b-2 border-blue-500 overflow-hidden poppins-semibold" : "text-gray-500 poppins-regular",
           )}
           onClick={() => setFilter("all")}
         >
@@ -94,8 +97,8 @@ export default function ChatSidebar({ users, messages }: ChatSidebarProps) {
         </button>
         <button
           className={cn(
-            "flex-1 py-2 text-xs font-medium",
-            filter === "unread" ? "text-blue-800 border-b-2 border-blue-800 overflow-hidden" : "text-gray-500",
+            "flex-1 py-2 font-medium transition-all",
+            filter === "unread" ? "text-blue-500 border-b-2 border-blue-500 overflow-hidden poppins-semibold" : "text-gray-500 poppins-regular",
           )}
           onClick={() => setFilter("unread")}
         >
@@ -103,8 +106,8 @@ export default function ChatSidebar({ users, messages }: ChatSidebarProps) {
         </button>
         <button
           className={cn(
-            "flex-1 py-2 text-xs font-medium",
-            filter === "archived" ? "text-blue-800 border-b-2 border-blue-800 overflow-hidden" : "text-gray-500",
+            "flex-1 py-2 font-medium transition-all",
+            filter === "archived" ? "text-blue-500 border-b-2 border-blue-500 overflow-hidden poppins-semibold" : "text-gray-500 poppins-regular",
           )}
           onClick={() => setFilter("archived")}
         >

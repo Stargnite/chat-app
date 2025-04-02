@@ -40,11 +40,11 @@ export const useChatStore = create<ChatStore>((set) => ({
   
   handleUserSelect: (user) => set({ 
     selectedUser: user, 
-    recipientMenuOpen: false 
+    recipientMenuOpen: false,
   }),
   
   handleNewChat: () => set({ 
     selectedUser: null, 
-    recipientMenuOpen: true 
+    recipientMenuOpen: true,
   }),
 })) 

@@ -1,30 +1,37 @@
 import { Avatar } from "@/components/ui/avatar"
 import { useChatStore } from "../lib/store"
 import ChatInput from "./ChatInput"
+// import { Arrow } from "@radix-ui/react-context-menu"
+import { ArrowLeft } from "lucide-react"
 
 export default function ChatMain() {
-  const { selectedUser } = useChatStore()
+  const { selectedUser, setSelectedUser } = useChatStore()
 
   return (
-    <div className="flex flex-col h-[90vh] w-[100vw] bg-white shadow-sm rounded-sm ">
+    <div className={`flex flex-col h-[90vh] w-[100vw] bg-white shadow-sm rounded-sm
+      ${selectedUser ? "block" : "hidden"}`}>
       {selectedUser ? (
         <>
           {/* Chat header */}
           <div className="px-4 py-3 border-b border-gray-200 flex items-center">
+            <ArrowLeft className="h-5 w-5 mr-3 text-black cursor-pointer hover:text-gray-700 transition-all" onClick={() => setSelectedUser(null)} />
             <Avatar className="h-8 w-8 mr-3">
               <img src={selectedUser.avatar || "/placeholder.svg"} alt={selectedUser.name} />
             </Avatar>
             <div>
-              <h3 className="font-medium text-sm text-gray-800">{selectedUser.name}</h3>
-              <p className="text-xs text-gray-500">{selectedUser.online ? "Online" : "Offline"}</p>
+              <h3 className="font-medium text-sm text-gray-800 poppins-medium">{selectedUser.name}</h3>
+              <p className="text-xs text-gray-500 poppins-regular">{selectedUser.online ? "Active now" : "Offline"}</p>
             </div>
           </div>
 
           {/* Chat messages */}
           <div className="flex-1 p-4 overflow-y-auto">
             {/* Messages would be rendered here */}
-            <div className="flex justify-center items-center h-full text-gray-500 text-sm">
-              Start a conversation with {selectedUser.name}
+            <div className="flex flex-col space-y-5 items-center h-full text-gray-500 text-sm">
+              <Avatar className="h-20 w-20 mr-3">
+                <img src={selectedUser.avatar || "/placeholder.svg"} alt={selectedUser.name} />
+              </Avatar>
+              <p className="poppins-medium">Start a conversation with {selectedUser.name} </p>
             </div>
           </div>
 

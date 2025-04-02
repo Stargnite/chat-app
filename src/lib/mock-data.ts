@@ -14,15 +14,15 @@ export const users: User[] = [
   },
   {
     id: "2",
-    name: "John Abrahams",
+    name: "John Abraham",
     avatar: img2,
-    online: true,
+    online: false,
   },
   {
     id: "3",
     name: "Sabile Sayma",
     avatar: img3,
-    online: false,
+    online: true,
   },
   {
     id: "4",
@@ -34,7 +34,7 @@ export const users: User[] = [
     id: "5",
     name: "Angel Dayna",
     avatar: img5,
-    online: false,
+    online: true,
   },
   {
     id: "6",
