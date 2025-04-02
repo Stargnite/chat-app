@@ -2,6 +2,7 @@ import { cn } from "../lib/utils"
 import { Badge } from "@/components/ui/badge"
 import type { User, Message } from "./../lib/types"
 
+
 interface ChatCardProps {
   selectedUser: User | null,
   message: Message,

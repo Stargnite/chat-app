@@ -2,7 +2,7 @@ import { Avatar } from "@/components/ui/avatar"
 import { useChatStore } from "../lib/store"
 import ChatInput from "./ChatInput"
 // import { Arrow } from "@radix-ui/react-context-menu"
-import { ArrowLeft } from "lucide-react"
+import { ArrowLeft, Ellipsis } from "lucide-react"
 
 export default function ChatMain() {
   const { selectedUser, setSelectedUser } = useChatStore()
@@ -13,15 +13,22 @@ export default function ChatMain() {
       {selectedUser ? (
         <>
           {/* Chat header */}
-          <div className="px-4 py-3 border-b border-gray-200 flex items-center">
-            <ArrowLeft className="h-5 w-5 mr-3 text-black cursor-pointer hover:text-gray-700 transition-all" onClick={() => setSelectedUser(null)} />
-            <Avatar className="h-8 w-8 mr-3">
-              <img src={selectedUser.avatar || "/placeholder.svg"} alt={selectedUser.name} />
-            </Avatar>
-            <div>
-              <h3 className="font-medium text-sm text-gray-800 poppins-medium">{selectedUser.name}</h3>
-              <p className="text-xs text-gray-500 poppins-regular">{selectedUser.online ? "Active now" : "Offline"}</p>
+          <div className="flex items-center justify-between px-4 py-3 border-b border-gray-200">
+            <div className=" flex items-center">
+              <ArrowLeft className="h-5 w-5 mr-3 text-black cursor-pointer hover:text-gray-700 transition-all" onClick={() => setSelectedUser(null)} />
+              <Avatar className="h-8 w-8 mr-3">
+                <img src={selectedUser.avatar || "/placeholder.svg"} alt={selectedUser.name} />
+              </Avatar>
+              <div>
+                <h3 className="font-medium text-sm text-gray-800 poppins-medium">{selectedUser.name}</h3>
+                <p className="text-xs text-gray-500 poppins-regular">{selectedUser.online ? "Active now" : "Offline"}</p>
+              </div>
             </div>
+            <button className="flex items-center justify-center text-gray-500 cursor-pointer transition-all hover:opacity-70">
+              <div className="rounded-full w-6 h-6 bg-blue-600 text-white flex items-center justify-center">
+                <Ellipsis className="w-4 h-4" />
+              </div>
+            </button>
           </div>
 
           {/* Chat messages */}

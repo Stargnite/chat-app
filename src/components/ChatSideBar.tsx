@@ -5,6 +5,7 @@ import SearchBar from "@/components/SearchBar"
 import { cn } from "../lib/utils"
 import { useChatStore } from "../lib/store"
 import { SquarePen } from "lucide-react"
+import RightClickContext from "./RightClickContext"
 
 interface ChatSidebarProps {
   users: User[]
@@ -32,7 +33,7 @@ export default function ChatSidebar({ users, messages }: ChatSidebarProps) {
       // Apply search filter
       if (
         searchQuery &&
-        !user.name.toLowerCase().includes(searchQuery.toLowerCase()) 
+        !user.name.toLowerCase().includes(searchQuery.toLowerCase())
         // &&
         // !message.text.toLowerCase().includes(searchQuery.toLowerCase())
       ) {
@@ -49,7 +50,7 @@ export default function ChatSidebar({ users, messages }: ChatSidebarProps) {
 
   return (
     <div className="min-w-[370px] shadow-lg rounded-sm flex flex-col h-full bg-white">
-      
+
       <div className="flex justify-between space-x-2 py-4 px-5">
         {/* Tabs -- (Chat & Email) */}
         <div className="flex w-[260px] h-[36px] poppins-semibold">
@@ -76,7 +77,7 @@ export default function ChatSidebar({ users, messages }: ChatSidebarProps) {
         {/* Add new chat button */}
         <button className="flex items-center justify-center text-gray-500 cursor-pointer transition-all hover:opacity-70" onClick={handleNewChat}>
           <div className="rounded-full w-7 h-7 bg-blue-600 text-white flex items-center justify-center">
-            <SquarePen className="w-4 h-4"  />
+            <SquarePen className="w-4 h-4" />
           </div>
         </button>
       </div>
@@ -122,13 +123,15 @@ export default function ChatSidebar({ users, messages }: ChatSidebarProps) {
           if (!user) return null
 
           return (
+            <RightClickContext key={message.id}>  
             <ChatCard
-              key={message.id}
+              // key={message.id}
               user={user}
               message={message}
               onUserSelect={handleUserSelect}
               selectedUser={selectedUser}
             />
+            </ RightClickContext>
           )
         })}
       </div>
