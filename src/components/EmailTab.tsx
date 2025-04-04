@@ -30,7 +30,7 @@ const EmailTab = () => {
 				}
 	
 				// Apply tab filter
-				if (emailsFilter === "inbox" && !email.unread) return false
+				// if (emailsFilter === "inbox" && !email.unread) return false
 				if (emailsFilter === "sent" && !email.archived) return false
 				if (emailsFilter === "drafts" && !email.archived) return false
 				if (emailsFilter === "deleted" && !email.archived) return false
@@ -97,7 +97,7 @@ const EmailTab = () => {
             if (!user) return null
 
             return (
-              <RightClickContext key={email.id}>
+              <RightClickContext key={email.id} user={user}>
                 <ChatCard
                   // key={email.id}
                   user={user}

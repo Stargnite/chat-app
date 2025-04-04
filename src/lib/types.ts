@@ -5,6 +5,7 @@ export interface User {
   name: string
   avatar: string
   online: boolean
+  archived?: boolean
 }
 
 export interface Message {

@@ -11,48 +11,56 @@ export const users: User[] = [
     name: "Alex Linderson",
     avatar: img1,
     online: true,
+    archived: false,
   },
   {
     id: "2",
     name: "John Abraham",
     avatar: img2,
     online: false,
+    archived: false,
   },
   {
     id: "3",
     name: "Sabile Sayma",
     avatar: img3,
     online: true,
+    archived: false,
   },
   {
     id: "4",
     name: "John Borino",
     avatar: img4,
     online: false,
+    archived: false
   },
   {
     id: "5",
     name: "Angel Dayna",
     avatar: img5,
     online: true,
+    archived: false,
   },
   {
     id: "6",
     name: "Maria Wadhwani",
     avatar: img1,
     online: true,
+    archived: false,
   },
   {
     id: "7",
     name: "Monish Jain",
     avatar: img3,
     online: true,
+    archived: false,
   },
   {
     id: "8",
     name: "Medha Verma",
     avatar: img2,
     online: true,
+    archived: false,
   },
   
 ]

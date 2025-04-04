@@ -39,7 +39,7 @@ const ChatTab = () => {
 	return (
 		<>
       {/* Filters -- (All, Uread & Archived) */}
-        <div className="flex w-full max-w-[266.5px] self-center">
+        <div className="flex w-full max-w-[266.5px] self-center justify-between ">
           <button
             className={cn(
               "flex-1 py-2 font-medium transition-all",
@@ -76,9 +76,8 @@ const ChatTab = () => {
             if (!user) return null
 
             return (
-              <RightClickContext key={message.id}>
+              <RightClickContext key={message.id} user={user}>
                 <ChatCard
-                  // key={message.id}
                   user={user}
                   message={message}
                   onUserSelect={handleUserSelect}

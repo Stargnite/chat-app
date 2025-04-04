@@ -7,23 +7,30 @@ import {
 // import { Switch } from "@/components/ui/switch"
 import { Check, Trash, Ban, Pin } from "lucide-react";
 import { SwitchButton } from "@/components/switch-button"
+import { User } from "@/lib/types";
 
-
+interface RightClickContextProps {
+	children: React.ReactNode;
+	user: User
+}
 
 const RightClickContext = ({
-	children,
-}: Readonly<{
-	children: React.ReactNode;
-}>) => {
+	children, user
+}: RightClickContextProps) => {
+
+	const toggleArchive = () => {
+		user.archived = !user.archived
+		console.log("Archive toggled:", user.archived)
+	}
 	return (
 		<ContextMenu>
-
 			<ContextMenuTrigger>{children}</ContextMenuTrigger>
 			<ContextMenuContent className="flex flex-col justify-around w-[270px] h-72 bg-white p-3 text-gray-800 shadow-lg border-1 border-gray-300">
 				<ContextMenuItem className="flex items-center justify-between text-lg cursor-pointer transition-all">
 					<p>Archive Chat</p>
 					<div
 						onClick={(e) => {
+							toggleArchive();
 							e.stopPropagation();
 							e.preventDefault(); // prevent radix from closing the menu
 						}}

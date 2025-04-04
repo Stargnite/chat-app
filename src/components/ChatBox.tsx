@@ -29,7 +29,7 @@ export default function ChatBox() {
 
             {/* Right click context menu trigger */}
             <ToolTipWrapper>
-              <RightClickContext>
+              <RightClickContext user={selectedUser}>
                 <button className="flex items-center justify-center text-gray-500 cursor-pointer transition-all hover:opacity-70">
                   <div className="rounded-full w-6 h-6 bg-blue-600 text-white flex items-center justify-center">
                     <Ellipsis className="w-4 h-4" />
