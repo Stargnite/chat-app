@@ -2,7 +2,7 @@ import { useChatStore } from "../lib/store"
 import { users, messages } from "./../lib/mock-data"
 import { cn } from "../lib/utils"
 import RightClickContext from "./RightClickContext"
-import ChatCard from "./ChatCard"
+import EmailCard from "./EmailCard"
 
 const EmailTab = () => {
 	const {
@@ -91,14 +91,14 @@ const EmailTab = () => {
         </div>
 
         {/* Chat list */}
-        <div className="flex-1 overflow-y-auto">
+        <div className="flex-1 overflow-y-auto flex flex-col space-y-3 my-5">
           {filteredEmails.map((email) => {
             const user = users.find((u) => u.id === email.userId)
             if (!user) return null
 
             return (
               <RightClickContext key={email.id} user={user}>
-                <ChatCard
+                <EmailCard
                   // key={email.id}
                   user={user}
                   message={email}

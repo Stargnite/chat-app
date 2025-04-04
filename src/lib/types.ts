@@ -20,3 +20,18 @@ export interface Message {
   archived: boolean
 }
 
+export interface Email {
+  id: string
+  sender: {
+    id: string
+    name: string
+    avatar: string
+  }
+  subject: string
+  preview: string
+  timestamp: string
+  threadCount: number
+  hasAttachment: boolean
+  isRead: boolean
+  archived: boolean
+}

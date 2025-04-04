@@ -32,8 +32,10 @@ export const useChatStore = create<ChatStore>((set) => ({
   emailsFilter: 'inbox',
   recipientMenuOpen: false,
   message: '',
-  // messages: Message[],
-  // userMessages: {},
+
+  // for email tab
+  
+
 
   // Actions
   setActiveTab: (tab) => set({ activeTab: tab }),
@@ -43,7 +45,6 @@ export const useChatStore = create<ChatStore>((set) => ({
   setEmailsFilter: (filter) => set({ emailsFilter: filter }),
   setRecipientMenuOpen: (open) => set({ recipientMenuOpen: open }),
   setMessage: (message) => set({ message: message }),
-  // setMessages: (messages: []) => set({ messages: [...messages] }),
   
   handleUserSelect: (user) => set({ 
     selectedUser: user, 
