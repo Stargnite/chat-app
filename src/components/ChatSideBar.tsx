@@ -49,7 +49,7 @@ export default function ChatSidebar({ users, messages }: ChatSidebarProps) {
     .sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime())
 
   return (
-    <div className="min-w-[370px] shadow-lg rounded-sm flex flex-col h-full bg-white">
+    <div className="min-w-[370px] min-h-[88vh] max-h-[88vh] shadow-lg rounded-sm flex flex-col h-full bg-white">
 
       <div className="flex justify-between space-x-2 py-4 px-5">
         {/* Tabs -- (Chat & Email) */}

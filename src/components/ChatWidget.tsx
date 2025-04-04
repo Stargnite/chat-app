@@ -4,7 +4,7 @@ import { users, messages } from "./../lib/mock-data"
 
 export default function ChatWidget() {
   return (
-    <div className="flex w-full gap-x-5 h-full bg-transparent">
+    <div className="flex w-[95vw] max-w-[1280px] gap-x-5 md:h-full bg-transparent justify-center md:justify-end">
       <ChatSidebar
         users={users}
         messages={messages}
