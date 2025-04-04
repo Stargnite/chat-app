@@ -6,7 +6,8 @@ interface ChatStore {
   activeTab: ChatTab
   selectedUser: User | null
   searchQuery: string
-  filter: 'all' | 'unread' | 'archived'
+  messagesFilter: 'all' | 'unread' | 'archived'
+  emailsFilter: 'inbox' | 'sent' | 'drafts' | 'deleted' | 'starred'
   recipientMenuOpen: boolean
   message: string
 
@@ -14,7 +15,8 @@ interface ChatStore {
   setActiveTab: (tab: ChatTab) => void
   setSelectedUser: (user: User | null) => void
   setSearchQuery: (query: string) => void
-  setFilter: (filter: 'all' | 'unread' | 'archived') => void
+  setMessagesFilter: (filter: 'all' | 'unread' | 'archived') => void
+  setEmailsFilter: (filter: 'inbox' | 'sent' | 'drafts' | 'deleted' | 'starred') => void
   setMessage: (message: string) => void
   handleUserSelect: (user: User) => void
   handleNewChat: () => void
@@ -26,17 +28,22 @@ export const useChatStore = create<ChatStore>((set) => ({
   activeTab: 'chat',
   selectedUser: null,
   searchQuery: '',
-  filter: 'all',
+  messagesFilter: 'all',
+  emailsFilter: 'inbox',
   recipientMenuOpen: false,
   message: '',
+  // messages: Message[],
+  // userMessages: {},
 
   // Actions
   setActiveTab: (tab) => set({ activeTab: tab }),
   setSelectedUser: (user) => set({ selectedUser: user }),
   setSearchQuery: (query) => set({ searchQuery: query }),
-  setFilter: (filter) => set({ filter: filter }),
+  setMessagesFilter: (filter) => set({ messagesFilter: filter }),
+  setEmailsFilter: (filter) => set({ emailsFilter: filter }),
   setRecipientMenuOpen: (open) => set({ recipientMenuOpen: open }),
   setMessage: (message) => set({ message: message }),
+  // setMessages: (messages: []) => set({ messages: [...messages] }),
   
   handleUserSelect: (user) => set({ 
     selectedUser: user, 

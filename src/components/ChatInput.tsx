@@ -4,20 +4,62 @@ import { Input } from "./ui/input"
 import { Send, Paperclip, Smile, Mic } from "lucide-react"
 
 const ChatInput = () => {
-	const { selectedUser, message, setMessage } = useChatStore()
+	const { message, setMessage } = useChatStore()
 
-	const handleSendMessage = (e: React.FormEvent) => {
-		e.preventDefault()
-		if (message.trim() && selectedUser) {
-			// send the message to backend
-			console.log(`Sending message to ${selectedUser.name}: ${message}`)
-			setMessage("")
-		}
-	}
+
+	// const handleSendMessage = (e: React.FormEvent) => {
+  //   e.preventDefault()
+  //   if (message.trim() && selectedUser) {
+  //     const userId = selectedUser.id
+
+  //     // Add the new message to user messages
+  //     const newMessage = {
+  //       id: Date.now().toString(),
+  //       message: message.trim(),
+  //       timestamp: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
+  //       isReceived: false,
+  //     }
+
+  //     setUserMessages((prev) => ({
+  //       ...prev,
+  //       [userId]: [...(prev[userId] || []), newMessage],
+  //     }))
+
+  //     setMessage("")
+
+  //     // Simulate a reply after 1 second
+  //     // setTimeout(() => {
+  //     //   const replyMessage = {
+  //     //     id: (Date.now() + 1).toString(),
+  //     //     message: "Thanks for your message! I'll get back to you soon.",
+  //     //     timestamp: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
+  //     //     isReceived: true,
+  //     //   }
+
+  //     //   setUserMessages((prev) => ({
+  //     //     ...prev,
+  //     //     [userId]: [...(prev[userId] || []), replyMessage],
+  //     //   }))
+  //     // }, 1000)
+  //   }
+  // }
+
+
+	// const handleSendMessage = (e: React.FormEvent) => {
+	// 	e.preventDefault()
+	// 	if (message.trim() && selectedUser) {
+	// 		// send the message to backend
+	// 		console.log(`Sending message to ${selectedUser.name}: ${message}`)
+	// 		setMessage("")
+	// 	}
+	// }
+
 	return (
 		<div className="flex space-x-4 items-center justify-center p-3 border-t border-gray-200">
 			<Paperclip className="text-gray-700 cursor-pointer transition-all hover:text-blue-500" />
-			<form onSubmit={handleSendMessage} className="flex relative w-full">
+			<form 
+			// onSubmit={handleSendMessage} 
+			className="flex relative w-full">
 				<Input
 					type="text"
 					placeholder="Type a message..."
