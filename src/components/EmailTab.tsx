@@ -42,10 +42,10 @@ const EmailTab = () => {
 	return (
 		<>
       {/* Filters -- (All, Uread & Archived) */}
-        <div className="flex w-full gap-x-1.5 px-5 self-center">
+        <div className="flex w-full gap-x-1.5 px-5 self-center justify-evenly">
           <button
             className={cn(
-              "flex-1 py-2 font-medium transition-all",
+              "py-2 font-medium transition-all",
               emailsFilter === "inbox" ? "text-blue-500 border-b-2 border-blue-500 overflow-hidden poppins-semibold" : "text-gray-500 poppins-regular",
             )}
             onClick={() => setEmailsFilter("inbox")}
@@ -54,7 +54,7 @@ const EmailTab = () => {
           </button>
           <button
             className={cn(
-              "flex-1 py-2 font-medium transition-all",
+              "py-2 font-medium transition-all",
               emailsFilter === "sent" ? "text-blue-500 border-b-2 border-blue-500 overflow-hidden poppins-semibold" : "text-gray-500 poppins-regular",
             )}
             onClick={() => setEmailsFilter("sent")}
@@ -63,7 +63,7 @@ const EmailTab = () => {
           </button>
           <button
             className={cn(
-              "flex-1 py-2 font-medium transition-all",
+              "py-2 font-medium transition-all",
               emailsFilter === "drafts" ? "text-blue-500 border-b-2 border-blue-500 overflow-hidden poppins-semibold" : "text-gray-500 poppins-regular",
             )}
             onClick={() => setEmailsFilter("drafts")}
@@ -72,7 +72,7 @@ const EmailTab = () => {
           </button>
 					<button
             className={cn(
-              "flex-1 py-2 font-medium transition-all",
+              "py-2 font-medium transition-all",
               emailsFilter === "deleted" ? "text-blue-500 border-b-2 border-blue-500 overflow-hidden poppins-semibold" : "text-gray-500 poppins-regular",
             )}
             onClick={() => setEmailsFilter("deleted")}
@@ -81,7 +81,7 @@ const EmailTab = () => {
           </button>
 					<button
             className={cn(
-              "flex-1 py-2 font-medium transition-all",
+              "py-2 font-medium transition-all",
               emailsFilter === "starred" ? "text-blue-500 border-b-2 border-blue-500 overflow-hidden poppins-semibold" : "text-gray-500 poppins-regular",
             )}
             onClick={() => setEmailsFilter("starred")}
@@ -91,7 +91,7 @@ const EmailTab = () => {
         </div>
 
         {/* Chat list */}
-        <div className="flex-1 overflow-y-auto flex flex-col space-y-3 my-5">
+        <div className="flex-1 overflow-y-auto flex flex-col space-y-3 my-5 px-3">
           {filteredEmails.map((email) => {
             const user = users.find((u) => u.id === email.userId)
             if (!user) return null

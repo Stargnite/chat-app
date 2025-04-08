@@ -57,7 +57,7 @@ export default function EmailCard({ selectedUser, message, user, onUserSelect }:
           </div>
 
           <div className="flex items-center text-gray-600 mb-1">
-            <span className="font-medium">Re: Meeting</span>
+            <span className="font-medium poppin-regular">Re: Meeting</span>
             {/* {hasAttachment &&  */}
 						<Paperclip className="h-4 w-4 ml-2 text-gray-500" />
 						{/* } */}

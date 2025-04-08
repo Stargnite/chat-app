@@ -46,11 +46,11 @@ export default function ChatBubble({
 
   // If it's a sent message, align to the right without avatar
   return (
-    <div className="flex flex-row-reverse items-end mb-4 max-w-[85%] ml-auto">
-      <span className="text-xs text-gray-400 mr-2">{timestamp}</span>
+    <div className="flex  items-end mb-4 max-w-[85%] ml-auto flex-col">
       <div className="bg-blue-500 text-white rounded-2xl py-2 px-4 max-w-full">
         <p>{message}</p>
       </div>
+      <span className="text-xs text-gray-400 mr-2">{timestamp}</span>
     </div>
   );
 }

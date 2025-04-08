@@ -7,7 +7,7 @@ import ToolTipWrapper from "./ToolTipWrapper"
 import ChatBubble from "./ChatBubble"
 
 export default function ChatBox() {
-  const { selectedUser, setSelectedUser } = useChatStore();
+  const { selectedUser, setSelectedUser, message } = useChatStore();
 
   return (
     <div className={`flex flex-col min-h-[88vh] max-h-[88vh] w-[100vw] bg-white shadow-sm rounded-sm
@@ -42,7 +42,12 @@ export default function ChatBox() {
 
           {/* Chat messages */}
           <div className="flex-1 p-4 overflow-y-auto">
-            <ChatBubble message={"heyy"} timestamp="12:00" userName={selectedUser.name} userAvatar="test" isReceived={true} />
+            <ChatBubble message={"heyy"} timestamp="12:00" userName={selectedUser.name} userAvatar={selectedUser.avatar} isReceived={true} />
+            {message && (<ChatBubble message={message} timestamp="12:00" userName={selectedUser.name} userAvatar="test" isReceived={false} />)}
+            {/* {message && message.length > 0 ? (
+              message.map((msg, index) => (
+                <ChatBubble key={index} message={msg.message} timestamp={msg.timestamp} userName={selectedUser.name} userAvatar="test" isReceived={msg.isReceived} />
+              ))} */}
             {/* <div className="flex flex-col space-y-5 items-center h-full text-gray-500 text-sm">
               <Avatar className="h-20 w-20 mr-3">
                 <img src={selectedUser.avatar || "/placeholder.svg"} alt={selectedUser.name} />

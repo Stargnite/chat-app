@@ -6,7 +6,6 @@ import { Send, Paperclip, Smile, Mic } from "lucide-react"
 const ChatInput = () => {
 	const { message, setMessage } = useChatStore()
 
-
 	// const handleSendMessage = (e: React.FormEvent) => {
   //   e.preventDefault()
   //   if (message.trim() && selectedUser) {
@@ -45,20 +44,20 @@ const ChatInput = () => {
   // }
 
 
-	// const handleSendMessage = (e: React.FormEvent) => {
-	// 	e.preventDefault()
-	// 	if (message.trim() && selectedUser) {
-	// 		// send the message to backend
-	// 		console.log(`Sending message to ${selectedUser.name}: ${message}`)
-	// 		setMessage("")
-	// 	}
-	// }
+	const handleSendMessage = (e: React.FormEvent) => {
+		e.preventDefault()
+		if (message.trim() ) {
+			// send the message to backend
+			console.log(`Sending message: ${message}`)
+			setMessage("")
+		}
+	}
 
 	return (
 		<div className="flex space-x-4 items-center justify-center p-3 border-t border-gray-200">
 			<Paperclip className="text-gray-700 cursor-pointer transition-all hover:text-blue-500" />
 			<form 
-			// onSubmit={handleSendMessage} 
+			onSubmit={handleSendMessage} 
 			className="flex relative w-full">
 				<Input
 					type="text"
@@ -67,7 +66,7 @@ const ChatInput = () => {
 					value={message}
 					onChange={(e) => setMessage(e.target.value)}
 				/>
-				<button className="flex items-center justify-center text-gray-500 cursor-pointer transition-all hover:opacity-70 absolute right-1 top-1">
+				<button className="flex items-center justify-center text-gray-500 cursor-pointer transition-all hover:opacity-70 absolute right-1 top-1" type="submit">
 					<div className="rounded-full p-1.5 bg-blue-600 text-white flex items-center justify-center">
 						<Send className="w-4 h-4" />
 					</div>
