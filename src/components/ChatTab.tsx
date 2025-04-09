@@ -1,94 +1,93 @@
+import { useMemo, useEffect } from "react"
 import { useChatStore } from "../lib/store"
-import { users, messages } from "./../lib/mock-data"
 import { cn } from "../lib/utils"
 import RightClickContext from "./RightClickContext"
 import ChatCard from "./ChatCard"
+import axiosInstance from "@/api/api"
+// import { ChatCardType } from "@/lib/types"
 
 const ChatTab = () => {
-	const {
-			searchQuery,
-			messagesFilter,
-			setMessagesFilter,
-			selectedUser,
-			handleUserSelect,
-		} = useChatStore()
-	
-		// Filter and sort messages
-		const filteredMessages = messages
-			.filter((message) => {
-				const user = users.find((u) => u.id === message.userId)
-				if (!user) return false
-	
-				// Apply search filter
-				if (
-					searchQuery &&
-					!user.name.toLowerCase().includes(searchQuery.toLowerCase())
-					// &&
-					// !message.text.toLowerCase().includes(searchQuery.toLowerCase())
-				) {
-					return false
-				}
-	
-				// Apply tab filter
-				if (messagesFilter === "unread" && !message.unread) return false
-				if (messagesFilter === "archived" && !message.archived) return false
-	
-				return true
-			})
-			.sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime())
-	return (
-		<>
+  const {
+    chatList,
+    setChatList,
+    searchQuery,
+    messagesFilter,
+    setMessagesFilter,
+    handleUserSelect,
+  } = useChatStore() // This is from zustand store 
+
+  useEffect(() => {
+    const fetchContacts = async () => {
+      try {
+        const response = await axiosInstance.get("/api/v1/contacts")
+        const data = response.data.data
+        setChatList(data)
+        console.log("Contacts fetched successfully:", data)
+      } catch (err) {
+        console.error("Error fetching contacts:", err)
+      }
+    }
+  
+    fetchContacts()
+  }, [setChatList])
+  
+
+
+
+
+
+  // Filter and sort messages
+  const filteredMessages = useMemo(() => {
+    return chatList
+      .filter((user) => {
+        const matchesSearch = searchQuery
+          ? user.receiver_name.toLowerCase().includes(searchQuery.toLowerCase())
+          : true
+
+        const matchesFilter =
+          messagesFilter === "unread"
+            ? false // TODO: implement unread logic
+            : messagesFilter === "archived"
+            ? false // TODO: implement archived logic
+            : true
+
+        return matchesSearch && matchesFilter
+      })
+      .sort((a, b) => new Date(b.last_sent_at).getTime() - new Date(a.last_sent_at).getTime())
+  }, [chatList, searchQuery, messagesFilter])
+
+
+
+  return (
+    <>
       {/* Filters -- (All, Uread & Archived) */}
-        <div className="flex w-full max-w-[266.5px] self-center justify-between ">
+      <div className="flex w-full max-w-[266.5px] self-center justify-between ">
+        {["all", "unread", "archived"].map((filter) => (
           <button
+            key={filter}
             className={cn(
               "flex-1 py-2 font-medium transition-all",
-              messagesFilter === "all" ? "text-blue-500 border-b-2 border-blue-500 overflow-hidden poppins-semibold" : "text-gray-500 poppins-regular",
+              messagesFilter === filter
+                ? "text-blue-500 border-b-2 border-blue-500 overflow-hidden poppins-semibold"
+                : "text-gray-500 poppins-regular"
             )}
-            onClick={() => setMessagesFilter("all")}
+            onClick={() => setMessagesFilter(filter as "all" | "unread" | "archived")}
           >
-            All
+            {filter.charAt(0).toUpperCase() + filter.slice(1)}
           </button>
-          <button
-            className={cn(
-              "flex-1 py-2 font-medium transition-all",
-              messagesFilter === "unread" ? "text-blue-500 border-b-2 border-blue-500 overflow-hidden poppins-semibold" : "text-gray-500 poppins-regular",
-            )}
-            onClick={() => setMessagesFilter("unread")}
-          >
-            Unread
-          </button>
-          <button
-            className={cn(
-              "flex-1 py-2 font-medium transition-all",
-              messagesFilter === "archived" ? "text-blue-500 border-b-2 border-blue-500 overflow-hidden poppins-semibold" : "text-gray-500 poppins-regular",
-            )}
-            onClick={() => setMessagesFilter("archived")}
-          >
-            Archived
-          </button>
-        </div>
+        ))}
+      </div>
 
-        {/* Chat list */}
-        <div className="flex-1 overflow-y-auto">
-          {filteredMessages.map((message) => {
-            const user = users.find((u) => u.id === message.userId)
-            if (!user) return null
-
-            return (
-              <RightClickContext key={message.id} user={user}>
-                <ChatCard
-                  user={user}
-                  message={message}
-                  onUserSelect={handleUserSelect}
-                  selectedUser={selectedUser}
-                />
-              </ RightClickContext>
-            )
-          })}
-        </div>
-      </>
-	)
+      {/* Chat list */}
+      <div className="flex-1 overflow-y-auto">
+        {filteredMessages.map((user) => (
+          <RightClickContext key={user.receiver_id} user={user}>
+            <ChatCard user={user} onUserSelect={handleUserSelect} />
+          </RightClickContext>
+        ))}
+      </div>
+    </>
+  )
 }
 
 export default ChatTab

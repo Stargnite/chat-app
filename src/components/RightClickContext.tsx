@@ -7,21 +7,23 @@ import {
 // import { Switch } from "@/components/ui/switch"
 import { Check, Trash, Ban, Pin } from "lucide-react";
 import { SwitchButton } from "@/components/switch-button"
-import { User } from "@/lib/types";
+// import { User } from "@/lib/types";
+import { ChatCardType } from "@/lib/types";
 
 interface RightClickContextProps {
 	children: React.ReactNode;
-	user: User
+	user: ChatCardType
 }
 
 const RightClickContext = ({
-	children, user
+	children, 
+	// user
 }: RightClickContextProps) => {
 
-	const toggleArchive = () => {
-		user.archived = !user.archived
-		console.log("Archive toggled:", user.archived)
-	}
+	// const toggleArchive = () => {
+	// 	user.archived = !user.archived
+	// 	console.log("Archive toggled:", user.archived)
+	// }
 	return (
 		<ContextMenu>
 			<ContextMenuTrigger>{children}</ContextMenuTrigger>
@@ -30,7 +32,7 @@ const RightClickContext = ({
 					<p>Archive Chat</p>
 					<div
 						onClick={(e) => {
-							toggleArchive();
+							// toggleArchive();
 							e.stopPropagation();
 							e.preventDefault(); // prevent radix from closing the menu
 						}}

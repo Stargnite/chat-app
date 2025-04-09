@@ -1,5 +1,13 @@
 export type ChatTab = "chat" | "email"
 
+export type ChatCardType = {
+  receiver_id: string
+  receiver_name: string
+  receiver_email: string
+  last_message: string
+  last_sent_at: string
+}
+
 export interface User {
   id: string
   name: string

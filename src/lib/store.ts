@@ -1,26 +1,28 @@
 import { create } from 'zustand'
-import type { User, ChatTab } from './types'
+import type { ChatTab, ChatCardType } from './types'
 
 interface ChatStore {
   // State
   activeTab: ChatTab
-  selectedUser: User | null
+  selectedUser: ChatCardType | null
   searchQuery: string
   messagesFilter: 'all' | 'unread' | 'archived'
   emailsFilter: 'inbox' | 'sent' | 'drafts' | 'deleted' | 'starred'
   recipientMenuOpen: boolean
   message: string
+  chatList: ChatCardType[]
 
   // Actions
   setActiveTab: (tab: ChatTab) => void
-  setSelectedUser: (user: User | null) => void
+  setSelectedUser: (user: ChatCardType | null) => void
   setSearchQuery: (query: string) => void
   setMessagesFilter: (filter: 'all' | 'unread' | 'archived') => void
   setEmailsFilter: (filter: 'inbox' | 'sent' | 'drafts' | 'deleted' | 'starred') => void
   setMessage: (message: string) => void
-  handleUserSelect: (user: User) => void
+  handleUserSelect: (user: ChatCardType) => void
   handleNewChat: () => void
   setRecipientMenuOpen: (open: boolean) => void
+  setChatList: (list: ChatCardType[]) => void
 }
 
 export const useChatStore = create<ChatStore>((set) => ({
@@ -32,6 +34,7 @@ export const useChatStore = create<ChatStore>((set) => ({
   emailsFilter: 'inbox',
   recipientMenuOpen: false,
   message: '',
+  chatList: [],
 
   // for email tab
   
@@ -45,6 +48,7 @@ export const useChatStore = create<ChatStore>((set) => ({
   setEmailsFilter: (filter) => set({ emailsFilter: filter }),
   setRecipientMenuOpen: (open) => set({ recipientMenuOpen: open }),
   setMessage: (message) => set({ message: message }),
+  setChatList: (list) => set({ chatList: list }),
   
   handleUserSelect: (user) => set({ 
     selectedUser: user, 
