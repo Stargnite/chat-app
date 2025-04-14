@@ -1,64 +1,89 @@
+import axiosInstance from "@/api/api"
 import { useChatStore } from "../lib/store"
 import { Input } from "./ui/input"
 // import { Button } from "./ui/button"
 import { Send, Paperclip, Smile, Mic } from "lucide-react"
 
+
 const ChatInput = () => {
-	const { message, setMessage } = useChatStore()
+	const { message, setMessage, selectedUser } = useChatStore()
 
 	// const handleSendMessage = (e: React.FormEvent) => {
-  //   e.preventDefault()
-  //   if (message.trim() && selectedUser) {
-  //     const userId = selectedUser.id
+	//   e.preventDefault()
+	//   if (message.trim() && selectedUser) {
+	//     const userId = selectedUser.id
 
-  //     // Add the new message to user messages
-  //     const newMessage = {
-  //       id: Date.now().toString(),
-  //       message: message.trim(),
-  //       timestamp: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
-  //       isReceived: false,
-  //     }
+	//     // Add the new message to user messages
+	//     const newMessage = {
+	//       id: Date.now().toString(),
+	//       message: message.trim(),
+	//       timestamp: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
+	//       isReceived: false,
+	//     }
 
-  //     setUserMessages((prev) => ({
-  //       ...prev,
-  //       [userId]: [...(prev[userId] || []), newMessage],
-  //     }))
+	//     setUserMessages((prev) => ({
+	//       ...prev,
+	//       [userId]: [...(prev[userId] || []), newMessage],
+	//     }))
 
-  //     setMessage("")
+	//     setMessage("")
 
-  //     // Simulate a reply after 1 second
-  //     // setTimeout(() => {
-  //     //   const replyMessage = {
-  //     //     id: (Date.now() + 1).toString(),
-  //     //     message: "Thanks for your message! I'll get back to you soon.",
-  //     //     timestamp: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
-  //     //     isReceived: true,
-  //     //   }
+	//     // Simulate a reply after 1 second
+	//     // setTimeout(() => {
+	//     //   const replyMessage = {
+	//     //     id: (Date.now() + 1).toString(),
+	//     //     message: "Thanks for your message! I'll get back to you soon.",
+	//     //     timestamp: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
+	//     //     isReceived: true,
+	//     //   }
 
-  //     //   setUserMessages((prev) => ({
-  //     //     ...prev,
-  //     //     [userId]: [...(prev[userId] || []), replyMessage],
-  //     //   }))
-  //     // }, 1000)
-  //   }
-  // }
+	//     //   setUserMessages((prev) => ({
+	//     //     ...prev,
+	//     //     [userId]: [...(prev[userId] || []), replyMessage],
+	//     //   }))
+	//     // }, 1000)
+	//   }
+	// }
 
 
-	const handleSendMessage = (e: React.FormEvent) => {
+	const handleSendMessage = async (messageText: string, e: React.FormEvent) => {
 		e.preventDefault()
-		if (message.trim() ) {
-			// send the message to backend
-			console.log(`Sending message: ${message}`)
-			setMessage("")
+		try {
+			const response = await axiosInstance.post("/api/v1/message", {
+				receiver_id: selectedUser?.receiver_id,
+				message: messageText,
+				"sender_id": "3731",
+				"sender_name": "",
+				"sender_email": "tech@vindove.com",
+				"sender_picture": "",
+				"receiver_picture": "https://profile11.s3.ca-central-1.amazonaws.com/2635010406",
+				"receiver_name": "ashish lakhani",
+				"receiver_email": "ashish7730@gmail.com",
+				"document": null,
+				"id": "0196200c-4493-7125-928a-bf95ba6cc3fe",
+				"updated_at": "2025-04-10T14:13:17.000000Z",
+				"created_at": "2025-04-10T14:13:17.000000Z"
+			});
+
+			// Update local state with new message
+			const newMessage = response.data.data;
+			// Update your chat list or messages array
+
+			setMessage(''); // Clear input field
+			console.log("Message sent successfully:", newMessage);
+			return newMessage;
+		} catch (err) {
+			console.error("Error sending message:", err);
+			return null;
 		}
-	}
+	};
 
 	return (
 		<div className="flex space-x-4 items-center justify-center p-3 border-t border-gray-200">
 			<Paperclip className="text-gray-700 cursor-pointer transition-all hover:text-blue-500" />
-			<form 
-			onSubmit={handleSendMessage} 
-			className="flex relative w-full">
+			<form
+				onSubmit={() => handleSendMessage}
+				className="flex relative w-full">
 				<Input
 					type="text"
 					placeholder="Type a message..."

@@ -6,29 +6,32 @@ import { ChatCardType } from "./../lib/types"
 
 interface ChatCardProps {
   user: ChatCardType,
-  // selectedUser?: ChatCardType
+  selectedUser?: ChatCardType
   onUserSelect: (user: ChatCardType) => void
 }
 
-const ChatCard = ({ user }: ChatCardProps) => {
+const ChatCard = ({ user, selectedUser, onUserSelect }: ChatCardProps) => {
+
+
+
   return (
+    
     <div
       className={cn(
         "flex p-3 border-b border-gray-200 cursor-pointer hover:bg-gray-50",
-        user?.receiver_id === user.receiver_id && "bg-gray-100",
+        selectedUser?.receiver_id === user.receiver_id && "bg-gray-100",
       )}
-      // onClick={() => {
-      //   onUserSelect(user)
-      //   // message.unread = false
-      //   // message.unreadCount = 0
-      // }
-      // }
+      onClick={() => {
+        onUserSelect(user)
+        // message.unread = false
+        // message.unreadCount = 0
+      }
+      }
     >
 
       <div className="relative h-10 w-10 mr-3">
         <img src={
-          // user.avatar || 
-          "/placeholder.svg"} alt={user.receiver_name} />
+          user.receiver_picture || "/placeholder.svg"} alt={user.receiver_name} />
         <div className={cn(
           "absolute bottom-0 right-1 h-2 w-2 rounded-full z-10",
           // user.online ? "bg-green-500" : "bg-gray-400",
@@ -43,7 +46,7 @@ const ChatCard = ({ user }: ChatCardProps) => {
         <p className="text-xs text-gray-500 truncate mt-1 poppins-regular">{user.last_message}</p>
       </div>
       <div className="flex flex-col items-end ml-3 gap-y-2">
-        <span className="text-xs text-gray-400 poppins-regular">{user.last_sent_at}</span>
+        <span className="text-xs text-gray-400 poppins-regular">{new Date(user.last_sent_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
         {/* {message.unread && (
           <Badge className=" bg-red-500 text-white h-5 w-5 flex items-center justify-center rounded-full p-0 poppins-bold">
             {message.unreadCount}

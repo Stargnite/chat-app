@@ -9,6 +9,7 @@ import { Check, Trash, Ban, Pin } from "lucide-react";
 import { SwitchButton } from "@/components/switch-button"
 // import { User } from "@/lib/types";
 import { ChatCardType } from "@/lib/types";
+import { archiveChat, unarchiveChat } from "@/services/ChatServices";
 
 interface RightClickContextProps {
 	children: React.ReactNode;
@@ -17,13 +18,28 @@ interface RightClickContextProps {
 
 const RightClickContext = ({
 	children, 
-	// user
+	user
 }: RightClickContextProps) => {
 
-	// const toggleArchive = () => {
-	// 	user.archived = !user.archived
-	// 	console.log("Archive toggled:", user.archived)
-	// }
+	const handleArchive = async () => {
+		const success = await archiveChat(user.receiver_email);
+		if (success) {
+			user.archived = true;
+		}
+	};
+	const handleUnarchive = async () => {
+		const success = await unarchiveChat(user.receiver_email);
+		if (success) {
+			user.archived = false;
+		}
+	};
+	const toggleArchive = async () => {
+		if (user.archived) {
+			await handleUnarchive();
+		} else {
+			await handleArchive();
+		}
+	}
 	return (
 		<ContextMenu>
 			<ContextMenuTrigger>{children}</ContextMenuTrigger>
@@ -32,7 +48,7 @@ const RightClickContext = ({
 					<p>Archive Chat</p>
 					<div
 						onClick={(e) => {
-							// toggleArchive();
+							toggleArchive();
 							e.stopPropagation();
 							e.preventDefault(); // prevent radix from closing the menu
 						}}

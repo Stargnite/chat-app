@@ -5,7 +5,7 @@ interface ChatBubbleProps {
   message: string;
   timestamp: string;
   userName?: string;
-  userAvatar?: string;
+  userAvatar?: string | null;
   isReceived?: boolean;
 }
 

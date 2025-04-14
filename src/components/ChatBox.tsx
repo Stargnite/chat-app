@@ -19,11 +19,14 @@ export default function ChatBox() {
             <div className=" flex items-center">
               <ArrowLeft className="h-5 w-5 mr-3 text-black cursor-pointer hover:text-gray-700 transition-all" onClick={() => setSelectedUser(null)} />
               <Avatar className="h-8 w-8 mr-3">
-                <img src={selectedUser.avatar || "/placeholder.svg"} alt={selectedUser.name} />
+                <img src={selectedUser.receiver_picture || "/placeholder.svg"} alt={selectedUser.receiver_name} />
               </Avatar>
               <div>
-                <h3 className="font-medium text-sm text-gray-800 poppins-medium">{selectedUser.name}</h3>
-                <p className="text-xs text-gray-500 poppins-regular">{selectedUser.online ? "Active now" : "Offline"}</p>
+                <h3 className="font-medium text-sm text-gray-800 poppins-medium">{selectedUser.receiver_name}</h3>
+                <p className="text-xs text-gray-500 poppins-regular">
+                  {/* {selectedUser.online ? "Active now" : "Offline"} */}
+                  Active now
+                </p>
               </div>
             </div>
 
@@ -42,8 +45,8 @@ export default function ChatBox() {
 
           {/* Chat messages */}
           <div className="flex-1 p-4 overflow-y-auto">
-            <ChatBubble message={"heyy"} timestamp="12:00" userName={selectedUser.name} userAvatar={selectedUser.avatar} isReceived={true} />
-            {message && (<ChatBubble message={message} timestamp="12:00" userName={selectedUser.name} userAvatar="test" isReceived={false} />)}
+            <ChatBubble message={"heyy"} timestamp="12:00" userName={selectedUser.receiver_name} userAvatar={selectedUser.receiver_picture} isReceived={true} />
+            {message && (<ChatBubble message={message} timestamp="12:00" userName={selectedUser.receiver_name} userAvatar="test" isReceived={false} />)}
             {/* {message && message.length > 0 ? (
               message.map((msg, index) => (
                 <ChatBubble key={index} message={msg.message} timestamp={msg.timestamp} userName={selectedUser.name} userAvatar="test" isReceived={msg.isReceived} />

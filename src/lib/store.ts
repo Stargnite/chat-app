@@ -22,7 +22,7 @@ interface ChatStore {
   handleUserSelect: (user: ChatCardType) => void
   handleNewChat: () => void
   setRecipientMenuOpen: (open: boolean) => void
-  setChatList: (list: ChatCardType[]) => void
+  setChatList: (list: ChatCardType[] | ((prevList: ChatCardType[]) => ChatCardType[])) => void
 }
 
 export const useChatStore = create<ChatStore>((set) => ({
@@ -48,7 +48,12 @@ export const useChatStore = create<ChatStore>((set) => ({
   setEmailsFilter: (filter) => set({ emailsFilter: filter }),
   setRecipientMenuOpen: (open) => set({ recipientMenuOpen: open }),
   setMessage: (message) => set({ message: message }),
-  setChatList: (list) => set({ chatList: list }),
+  setChatList: (listOrFunction) => set((state) => {
+    if (typeof listOrFunction === 'function') {
+      return { chatList: listOrFunction(state.chatList) };
+    }
+    return { chatList: listOrFunction };
+  }),
   
   handleUserSelect: (user) => set({ 
     selectedUser: user, 
