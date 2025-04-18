@@ -1,16 +1,16 @@
 import { useChatStore } from "../lib/store"
 import { users, messages } from "./../lib/mock-data"
 import { cn } from "../lib/utils"
-import RightClickContext from "./RightClickContext"
-import EmailCard from "./EmailCard"
+// import RightClickContext from "./RightClickContext"
+// import EmailCard from "./EmailCard"
 
 const EmailTab = () => {
 	const {
 			searchQuery,
 			emailsFilter,
 			setEmailsFilter,
-			selectedUser,
-			handleUserSelect,
+			// selectedUser,
+			// handleUserSelect,
 		} = useChatStore()
 	
 		// Filter and sort emails
@@ -22,7 +22,7 @@ const EmailTab = () => {
 				// Apply search filter
 				if (
 					searchQuery &&
-					!user.name.toLowerCase().includes(searchQuery.toLowerCase())
+					!user.name?.toLowerCase().includes(searchQuery.toLowerCase())
 					// &&
 					// !email.text.toLowerCase().includes(searchQuery.toLowerCase())
 				) {
@@ -96,17 +96,17 @@ const EmailTab = () => {
             const user = users.find((u) => u.id === email.userId)
             if (!user) return null
 
-            return (
-              <RightClickContext key={email.id} user={user}>
-                <EmailCard
-                  // key={email.id}
-                  user={user}
-                  message={email}
-                  onUserSelect={handleUserSelect}
-                  selectedUser={selectedUser}
-                />
-              </ RightClickContext>
-            )
+            // return (
+              // <RightClickContext key={email.id} user={user}>
+              //   <EmailCard
+              //     // key={email.id}
+              //     user={user}
+              //     message={email}
+              //     onUserSelect={handleUserSelect}
+              //     selectedUser={selectedUser}
+              //   />
+              // </ RightClickContext>
+            // )
           })}
         </div>
       </>
