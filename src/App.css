@@ -3,7 +3,7 @@
 #root {
   max-width: 1280px;
   /* margin: 0 auto; */
-  padding: 2rem;
+  /* padding: 2rem; */
   /* text-align: center; */
 }
 
@@ -155,4 +155,9 @@
   font-family: "Poppins", sans-serif;
   font-weight: 900;
   font-style: italic;
+}
+
+
+@media (width < 48rem /* 768px */) {
+  padding: 0rem;
 }

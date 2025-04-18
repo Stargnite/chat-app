@@ -10,7 +10,7 @@ export default function ChatBox() {
   const { selectedUser, setSelectedUser, message } = useChatStore();
 
   return (
-    <div className={`flex flex-col min-h-[88vh] max-h-[88vh] w-[100vw] bg-white shadow-sm rounded-sm
+    <div className={`flex flex-col min-h-[100vh] md:min-h-[88vh] md:max-h-[88vh] w-[100vw] bg-white shadow-sm rounded-sm
       ${selectedUser ? "block" : "hidden"}`}>
       {selectedUser ? (
         <>
