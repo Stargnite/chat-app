@@ -36,7 +36,7 @@ const EmailTab = () => {
 				if (emailsFilter === "deleted" && !email.archived) return false
 				if (emailsFilter === "starred" && !email.archived) return false
 	
-				return true
+				return true 
 			})
 			.sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime())
 	return (
