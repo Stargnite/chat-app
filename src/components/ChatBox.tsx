@@ -33,7 +33,7 @@ export default function ChatBox() {
  
       if(selectedUser?.receiver_email === messageData?.userId) {
         setIsReceived(true)
-        
+        console.log(isReceived);
       } else {
         setIsReceived(false)
       }
