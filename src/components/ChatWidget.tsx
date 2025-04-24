@@ -33,7 +33,7 @@ export default function ChatWidget() {
   }, []);
 
   return (
-    <div className="flex w-full max-w-[1280px] md:p-10 gap-x-5 h-[100vh] md:h-full bg-transparent items-center justify-center md:justify-end">
+    <div className="flex w-full max-w-[1280px] md:p-8 gap-x-5 h-[100vh] md:h-full bg-transparent items-center md:items-end justify-center md:justify-end">
       {isMobile ? (
         selectedUser ? <ChatBox /> : <Sidebar />
       ) : (

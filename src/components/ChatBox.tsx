@@ -5,9 +5,28 @@ import { ArrowLeft, Ellipsis } from "lucide-react"
 import RightClickContext from "./RightClickContext"
 import ToolTipWrapper from "./ToolTipWrapper"
 import ChatBubble from "./ChatBubble"
+import axiosInstance from "@/api/api"
+import { useEffect, useState } from "react"
 
 export default function ChatBox() {
   const { selectedUser, setSelectedUser, message } = useChatStore();
+  const [conversation, setConversation] = useState([])
+
+  useEffect(()=> {
+    const getConversations = async () => {
+      try {
+        const response = await axiosInstance.get(`/api/v1/chat/${selectedUser?.receiver_email}`)
+        const data = response.data.data;
+  
+        console.log("Conversation for user>>>>>>>>>>", data)
+  
+      } catch(error) {
+  
+      }
+    }
+
+    getConversations();
+  }, [selectedUser])
 
   return (
     <div className={`flex flex-col min-h-[100vh] md:min-h-[88vh] md:max-h-[88vh] w-[100vw] bg-white shadow-sm rounded-sm
