@@ -6,11 +6,13 @@ import RightClickContext from "./RightClickContext"
 import ToolTipWrapper from "./ToolTipWrapper"
 import ChatBubble from "./ChatBubble"
 import axiosInstance from "@/api/api"
-import { useEffect, useState } from "react"
+import { useEffect, 
+  // useState 
+} from "react"
 
 export default function ChatBox() {
   const { selectedUser, setSelectedUser, message } = useChatStore();
-  const [conversation, setConversation] = useState([])
+  // const [conversation, setConversation] = useState([])
 
   useEffect(()=> {
     const getConversations = async () => {
