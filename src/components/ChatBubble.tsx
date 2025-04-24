@@ -2,14 +2,16 @@ import { Avatar } from "@/components/ui/avatar";
 // import { cn } from "@/lib/utils";
 
 interface ChatBubbleProps {
-  message: string;
-  timestamp: string;
+  message: string | undefined;
+  timestamp: string | undefined;
   userName?: string;
-  userAvatar?: string;
+  userAvatar?: string | null;
   isReceived?: boolean;
+  messageId?: string;
 }
 
 export default function ChatBubble({
+  messageId,
   message,
   timestamp,
   userName,
@@ -17,6 +19,7 @@ export default function ChatBubble({
   isReceived = true,
 }: ChatBubbleProps) {
   // If it's a received message, show the avatar and name
+  console.log(messageId)
   if (isReceived) {
     return (
       <div className="flex items-start mb-4 max-w-[85%]">

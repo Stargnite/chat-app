@@ -1,10 +1,12 @@
+import { useState } from "react"
 import { useChatStore } from "../lib/store"
 import { Input } from "./ui/input"
 // import { Button } from "./ui/button"
 import { Send, Paperclip, Smile, Mic } from "lucide-react"
 
 const ChatInput = () => {
-	const { message, setMessage } = useChatStore()
+	const { messageData, setMessageData } = useChatStore()
+	const [unSentText, setUnsentText] = useState("")
 
 	// const handleSendMessage = (e: React.FormEvent) => {
   //   e.preventDefault()
@@ -46,11 +48,15 @@ const ChatInput = () => {
 
 	const handleSendMessage = (e: React.FormEvent) => {
 		e.preventDefault()
-		if (message.trim() ) {
+		setMessageData({
+			...messageData, 
+			text: unSentText
+		  })
+		if (messageData) {
 			// send the message to backend
-			console.log(`Sending message: ${message}`)
-			setMessage("")
+			// console.log(`Sending message: ${messageData.text}`)
 		}
+		setMessageData(null)
 	}
 
 	return (
@@ -63,8 +69,8 @@ const ChatInput = () => {
 					type="text"
 					placeholder="Type a message..."
 					className="flex-1 border border-gray-300 rounded-full focus:outline-none focus:ring-blue-500 p-2 text-gray-800"
-					value={message}
-					onChange={(e) => setMessage(e.target.value)}
+					value={unSentText}
+					onChange={(e) => setUnsentText(e.target.value)}
 				/>
 				<button className="flex items-center justify-center text-gray-500 cursor-pointer transition-all hover:opacity-70 absolute right-1 top-1" type="submit">
 					<div className="rounded-full p-1.5 bg-blue-600 text-white flex items-center justify-center">

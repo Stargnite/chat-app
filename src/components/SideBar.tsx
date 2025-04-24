@@ -15,7 +15,9 @@ export default function Sidebar() {
   } = useChatStore()
 
   return (
-    <div className="min-w-[370px] min-h-[88vh] max-h-[88vh] shadow-lg rounded-sm flex flex-col h-full bg-white">
+    <div className="min-w-[100vw] sm:min-w-[370px] sm:max-w-[370px] min-h-[100vh] md:min-h-[88vh] md:max-h-[88vh] shadow-lg rounded-sm flex flex-col h-full bg-white"
+    // "min-w-[370px] min-h-[88vh] max-h-[88vh] shadow-lg rounded-sm flex flex-col h-full bg-white"
+    >
 
       <div className="flex justify-between space-x-2 py-4 px-5">
         {/* Tabs -- (Chat & Email) */}

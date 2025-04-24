@@ -8,16 +8,27 @@ export interface User {
   archived?: boolean
 }
 
+
+export type ChatCardType = {
+  receiver_id: string
+  receiver_name: string
+  receiver_email: string
+  receiver_picture: string | null,
+  last_message: string
+  last_sent_at: string
+  archived?: boolean
+}
+
 export interface Message {
-  id: string
-  userId: string
-  text: string
-  timestamp: string
-  time: string
-  unread: boolean
-  unreadCount: number
-  isNew: boolean
-  archived: boolean
+  id?: string
+  userId?: string
+  text?: string
+  timestamp?: string
+  time?: string
+  unread?: boolean
+  unreadCount?: number
+  isNew?: boolean
+  archived?: boolean
 }
 
 export interface Email {
