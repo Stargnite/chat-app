@@ -8,7 +8,24 @@ import { useEffect, useState, useMemo } from "react";
 import { ChatCardType } from "@/lib/types";
 
 const ChatTab = () => {
-  const [contacts, setContacts] = useState<any>([]);
+  const [contacts, setContacts] = useState<any>([
+    {
+      receiver_id: "oksanasuxanova@mail.com",
+      receiver_name: "Robertodip Robertodip",
+      receiver_email: "oksanasuxanova@mail.com",
+      receiver_picture: null,
+      last_message: "How are you doing?",
+      last_sent_at: "2025-02-20T12:50:23.000000Z",
+    },
+    {
+      receiver_id: "ashu@gmail.com",
+      receiver_name: "ashutosh roy",
+      receiver_email: "ashu@gmail.com",
+      receiver_picture: null,
+      last_message: "Try again with document again",
+      last_sent_at: "2025-02-20T11:12:25.000000Z",
+    },
+  ]);
 
   const {
     searchQuery,

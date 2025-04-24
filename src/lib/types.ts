@@ -1,14 +1,4 @@
 export type ChatTab = "chat" | "email"
-
-export interface User {
-  id: string
-  name: string
-  avatar: string
-  online: boolean
-  archived?: boolean
-}
-
-
 export type ChatCardType = {
   receiver_id: string
   receiver_name: string
@@ -31,18 +21,32 @@ export interface Message {
   archived?: boolean
 }
 
-export interface Email {
-  id: string
-  sender: {
-    id: string
-    name: string
-    avatar: string
-  }
-  subject: string
-  preview: string
-  timestamp: string
-  threadCount: number
-  hasAttachment: boolean
-  isRead: boolean
-  archived: boolean
-}
+export  interface MailCardType {
+  id: string;
+  name: string;
+  phone_no: string;
+  senders_email: string;
+  recipient_email: string;
+  message: string;
+  created_at: string;
+  updated_at: string;
+  attachments: {
+    id: string;
+    media_type: string;
+    media_url: string;
+    email_id: string;
+    created_at: string;
+    updated_at: string;
+  };
+};
+
+
+
+// export interface User {
+//   id: string
+//   name: string
+//   avatar: string
+//   online: boolean
+//   archived?: boolean
+// }
+
