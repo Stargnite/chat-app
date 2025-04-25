@@ -41,8 +41,8 @@ export default function EmailBox() {
       {selectedMail ? (
         <>
           {/* Chat header */}
-          <div className="flex items-center justify-between px-4 py-3 border-b border-gray-200">
-            <div className=" flex items-center">
+          <div className="flex flex-col md:flex-row items-center justify-center gap-y-2 md:justify-between px-4 py-3 border-b border-gray-200">
+            <div className=" flex items-center justify-between sm:justify-self-start w-full sm:w-auto text-center md:text-start">
               <ArrowLeft
                 className="h-5 w-5 mr-3 text-black cursor-pointer hover:text-gray-700 transition-all"
                 onClick={() => setSelectedMail(undefined)}

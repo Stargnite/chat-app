@@ -6,12 +6,76 @@ import RightClickContext from "./ChatRightClickContext";
 import ToolTipWrapper from "./ToolTipWrapper";
 import ChatBubble from "./ChatBubble";
 import axiosInstance from "@/api/api";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import socket from "../lib/socket";
 
 export default function ChatBox() {
   const { selectedUser, setSelectedUser, messageData } = useChatStore();
-  const [conversation, setConversation] = useState([]);
-  const [isReceived, setIsReceived] = useState(false)
+  const messagesEndRef = useRef<HTMLDivElement | null>(null);
+  const [conversation, setConversation] = useState([
+    {
+      id: "0196200f-2be1-7333-b71b-8a1cec9d09e3",
+      sender_id: 3731,
+      sender_picture: "",
+      sender_name: "",
+      sender_email: "tech@vindove.com",
+      receiver_id: 1046,
+      receiver_picture:
+        "https://profile11.s3.ca-central-1.amazonaws.com/2635010406",
+      receiver_name: "ashish lakhani",
+      receiver_email: "ashish7730@gmail.com",
+      message: "Lets go again",
+      document: null,
+      archived_for: null,
+      deleted_for: null,
+      read_at: null,
+      created_at: "2025-04-10T14:16:27.000000Z",
+      updated_at: "2025-04-10T14:16:27.000000Z",
+    },
+    {
+      id: "0196200c-4493-7125-928a-bf95ba6cc3fe",
+      sender_id: 3731,
+      sender_picture: "",
+      sender_name: "",
+      sender_email: "tech@vindove.com",
+      receiver_id: 1046,
+      receiver_picture:
+        "https://profile11.s3.ca-central-1.amazonaws.com/2635010406",
+      receiver_name: "ashish lakhani",
+      receiver_email: "ashish7730@gmail.com",
+      message: "Hello, hope this works",
+      document: null,
+      archived_for: null,
+      deleted_for: null,
+      read_at: null,
+      created_at: "2025-04-10T14:13:17.000000Z",
+      updated_at: "2025-04-10T14:13:17.000000Z",
+    },
+    {
+      id: "0196200b-d6e4-7072-b38c-69697fd2bc73",
+      sender_id: 3731,
+      sender_picture: "",
+      sender_name: "",
+      sender_email: "tech@vindove.com",
+      receiver_id: 1046,
+      receiver_picture:
+        "https://profile11.s3.ca-central-1.amazonaws.com/2635010406",
+      receiver_name: "ashish lakhani",
+      receiver_email: "ashish7730@gmail.com",
+      message: "Hello, hope this works",
+      document: null,
+      archived_for: null,
+      deleted_for: null,
+      read_at: null,
+      created_at: "2025-04-10T14:12:49.000000Z",
+      updated_at: "2025-04-10T14:12:49.000000Z",
+    },
+  ]);
+  const [isReceived, setIsReceived] = useState(false);
+
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [conversation, messageData]);
 
   useEffect(() => {
     const getConversations = async () => {
@@ -21,8 +85,66 @@ export default function ChatBox() {
         );
         const data = response.data.data;
 
-        setConversation(data)
-        console.log("conversations>>>>", conversation)
+        setConversation([
+          {
+            id: "0196200f-2be1-7333-b71b-8a1cec9d09e3",
+            sender_id: 3731,
+            sender_picture: "",
+            sender_name: "",
+            sender_email: "tech@vindove.com",
+            receiver_id: 1046,
+            receiver_picture:
+              "https://profile11.s3.ca-central-1.amazonaws.com/2635010406",
+            receiver_name: "ashish lakhani",
+            receiver_email: "ashish7730@gmail.com",
+            message: "Lets go again",
+            document: null,
+            archived_for: null,
+            deleted_for: null,
+            read_at: null,
+            created_at: "2025-04-10T14:16:27.000000Z",
+            updated_at: "2025-04-10T14:16:27.000000Z",
+          },
+          {
+            id: "0196200c-4493-7125-928a-bf95ba6cc3fe",
+            sender_id: 3731,
+            sender_picture: "",
+            sender_name: "",
+            sender_email: "tech@vindove.com",
+            receiver_id: 1046,
+            receiver_picture:
+              "https://profile11.s3.ca-central-1.amazonaws.com/2635010406",
+            receiver_name: "ashish lakhani",
+            receiver_email: "ashish7730@gmail.com",
+            message: "Hello, hope this works",
+            document: null,
+            archived_for: null,
+            deleted_for: null,
+            read_at: null,
+            created_at: "2025-04-10T14:13:17.000000Z",
+            updated_at: "2025-04-10T14:13:17.000000Z",
+          },
+          {
+            id: "0196200b-d6e4-7072-b38c-69697fd2bc73",
+            sender_id: 3731,
+            sender_picture: "",
+            sender_name: "",
+            sender_email: "tech@vindove.com",
+            receiver_id: 1046,
+            receiver_picture:
+              "https://profile11.s3.ca-central-1.amazonaws.com/2635010406",
+            receiver_name: "ashish lakhani",
+            receiver_email: "ashish7730@gmail.com",
+            message: "Hello, hope this works",
+            document: null,
+            archived_for: null,
+            deleted_for: null,
+            read_at: null,
+            created_at: "2025-04-10T14:12:49.000000Z",
+            updated_at: "2025-04-10T14:12:49.000000Z",
+          },
+        ])
+        console.log("conversations>>>>", conversation);
 
         console.log("Conversation for the selected user>>>>>>>>>>", data);
       } catch (error) {
@@ -30,16 +152,34 @@ export default function ChatBox() {
       }
     };
 
- 
-      if(selectedUser?.receiver_email === messageData?.userId) {
-        setIsReceived(true)
-        console.log(isReceived);
-      } else {
-        setIsReceived(false)
-      }
-
+    if (selectedUser?.receiver_email === messageData?.sender_id) {
+      setIsReceived(true);
+      console.log(isReceived);
+    } else {
+      setIsReceived(false);
+    }
 
     getConversations();
+  }, [selectedUser]);
+
+
+  useEffect(() => {
+    if (!selectedUser?.receiver_email) return;
+  
+    // Join room or register this chat
+    socket.emit("joinRoom", {
+      sender: "tech@vindove.com", // Or currentUser.email
+      receiver: selectedUser.receiver_email,
+    });
+  
+    // Listen for new messages
+    socket.on("newMessage", (incomingMessage) => {
+      setConversation((prev) => [...prev, incomingMessage]);
+    });
+  
+    return () => {
+      socket.off("newMessage");
+    };
   }, [selectedUser]);
 
   return (
@@ -87,41 +227,36 @@ export default function ChatBox() {
 
           {/* Chat messages */}
           <div className="flex-1 p-4 overflow-y-auto">
-            <ChatBubble
-              message={"heyy"}
-              timestamp="12:00"
-              userName={selectedUser.receiver_name}
-              userAvatar={selectedUser.receiver_picture}
-              isReceived={true}
-            />
-            {messageData && (
-              <ChatBubble
-                messageId={messageData.id}
-                message={messageData.text}
-                timestamp={messageData.timestamp}
-                userName={selectedUser.receiver_name}
-                userAvatar="test"
-                isReceived={false}
-              />
+            {conversation.length > 0 ? (
+              conversation.map((msg) => (
+                <div key={msg.id} className="">
+                  <ChatBubble
+                    messageId={msg.id}
+                    message={msg.message}
+                    timestamp={new Date(msg.created_at).toLocaleTimeString([], {
+                      hour: "2-digit",
+                      minute: "2-digit",
+                    })}
+                    userName={msg.sender_name || msg.sender_email}
+                    userAvatar={msg.sender_picture || "/placeholder.svg"}
+                    isReceived={msg.sender_email !== "tech@vindove.com"? true : false} // Adjust as needed
+                  />
+                  <div ref={messagesEndRef} />
+                </div>
+              ))
+            ) : (
+              <div className="flex flex-col items-center justify-center h-full text-gray-500 text-sm">
+                <Avatar className="h-20 w-20 mb-3">
+                  <img
+                    src={selectedUser.receiver_picture || "/placeholder.svg"}
+                    alt={selectedUser.receiver_name}
+                  />
+                </Avatar>
+                <p className="poppins-medium">
+                  Start a conversation with {selectedUser.receiver_name}
+                </p>
+              </div>
             )}
-            {/* {conversation.length > 0 ? (
-              conversation.map((message) => (
-              <ChatBubble
-                messageId={messageData.id}
-                message={messageData.text}
-                timestamp={messageData.timestamp}
-                userName={selectedUser.receiver_name}
-                userAvatar="test"
-                isReceived={false}
-              />
-                <ChatBubble key={index} message={msg.message} timestamp={msg.timestamp} userName={selectedUser.name} userAvatar="test" isReceived={msg.isReceived} />
-              ))} */}
-            {/* <div className="flex flex-col space-y-5 items-center h-full text-gray-500 text-sm">
-              <Avatar className="h-20 w-20 mr-3">
-                <img src={selectedUser.avatar || "/placeholder.svg"} alt={selectedUser.name} />
-              </Avatar>
-              <p className="poppins-medium">Start a conversation with {selectedUser.name} </p>
-            </div> */}
           </div>
 
           {/* Message input */}
@@ -135,75 +270,5 @@ export default function ChatBox() {
         </div>
       )}
     </div>
-  );
+  )
 }
-
-// import { Avatar } from "@/components/ui/avatar"
-// import { useChatStore } from "../lib/store"
-// import ChatInput from "./ChatInput"
-// import { ArrowLeft, Ellipsis } from "lucide-react"
-// import RightClickContext from "./RightClickContext"
-// import ToolTipWrapper from "./ToolTipWrapper"
-// import ChatBubble from "./ChatBubble"
-
-// export default function ChatBox() {
-//   const { selectedUser, setSelectedUser, message } = useChatStore();
-
-//   return (
-//     <div className={`flex flex-col min-h-[100vh] md:min-h-[88vh] md:max-h-[88vh] w-[100vw] bg-white shadow-sm rounded-sm
-//       ${selectedUser ? "block" : "hidden"}`}>
-//       {selectedUser ? (
-//         <>
-//           {/* Chat header */}
-//           <div className="flex items-center justify-between px-4 py-3 border-b border-gray-200">
-//             <div className=" flex items-center">
-//               <ArrowLeft className="h-5 w-5 mr-3 text-black cursor-pointer hover:text-gray-700 transition-all" onClick={() => setSelectedUser(null)} />
-//               <Avatar className="h-8 w-8 mr-3">
-//                 <img src={selectedUser.avatar || "/placeholder.svg"} alt={selectedUser.name} />
-//               </Avatar>
-//               <div>
-//                 <h3 className="font-medium text-sm text-gray-800 poppins-medium">{selectedUser.name}</h3>
-//                 <p className="text-xs text-gray-500 poppins-regular">{selectedUser.online ? "Active now" : "Offline"}</p>
-//               </div>
-//             </div>
-
-//             {/* Right click context menu trigger */}
-//             <ToolTipWrapper>
-//               <RightClickContext user={selectedUser}>
-//                 <button className="flex items-center justify-center text-gray-500 cursor-pointer transition-all hover:opacity-70">
-//                   <div className="rounded-full w-6 h-6 bg-blue-600 text-white flex items-center justify-center">
-//                     <Ellipsis className="w-4 h-4" />
-//                   </div>
-//                 </button>
-//               </RightClickContext>
-//             </ToolTipWrapper>
-
-//           </div>
-
-//           {/* Chat messages */}
-//           <div className="flex-1 p-4 overflow-y-auto">
-//             <ChatBubble message={"heyy"} timestamp="12:00" userName={selectedUser.name} userAvatar={selectedUser.avatar} isReceived={true} />
-//             {message && (<ChatBubble message={message} timestamp="12:00" userName={selectedUser.name} userAvatar="test" isReceived={false} />)}
-//             {/* {message && message.length > 0 ? (
-//               message.map((msg, index) => (
-//                 <ChatBubble key={index} message={msg.message} timestamp={msg.timestamp} userName={selectedUser.name} userAvatar="test" isReceived={msg.isReceived} />
-//               ))} */}
-//             {/* <div className="flex flex-col space-y-5 items-center h-full text-gray-500 text-sm">
-//               <Avatar className="h-20 w-20 mr-3">
-//                 <img src={selectedUser.avatar || "/placeholder.svg"} alt={selectedUser.name} />
-//               </Avatar>
-//               <p className="poppins-medium">Start a conversation with {selectedUser.name} </p>
-//             </div> */}
-//           </div>
-
-//           {/* Message input */}
-//           <ChatInput />
-//         </>
-//       ) : (
-//         <div className="flex justify-center items-center h-full">
-//           <p className="font-normal text-lg text-gray-500">Select a user to begin chatting</p>
-//         </div>
-//       )}
-//     </div>
-//   )
-// }

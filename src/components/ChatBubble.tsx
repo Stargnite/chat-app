@@ -16,7 +16,7 @@ export default function ChatBubble({
   timestamp,
   userName,
   userAvatar,
-  isReceived = true,
+  isReceived,
 }: ChatBubbleProps) {
   // If it's a received message, show the avatar and name
   console.log(messageId)

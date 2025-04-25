@@ -10,15 +10,28 @@ export type ChatCardType = {
 }
 
 export interface Message {
-  id?: string
-  userId?: string
-  text?: string
-  timestamp?: string
-  time?: string
-  unread?: boolean
-  unreadCount?: number
-  isNew?: boolean
-  archived?: boolean
+  sender_id: string
+  sender_name: string
+  sender_email: string
+  sender_picture: string
+  receiver_id: number
+  receiver_name: string
+  receiver_email: string
+  receiver_picture: string
+  message: string
+  document: File | null
+  id: string
+  created_at: string
+  updated_at: string
+  // id?: string
+  // userId?: string
+  // text?: string
+  // timestamp?: string
+  // time?: string
+  // unread?: boolean
+  // unreadCount?: number
+  // isNew?: boolean
+  // archived?: boolean
 }
 
 export  interface MailCardType {
