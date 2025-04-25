@@ -10,6 +10,7 @@ import { SwitchButton } from "@/components/switch-button";
 import { ChatCardType } from "@/lib/types";
 import { useEffect } from "react";
 import { archiveChat, unarchiveChat } from "@/services/ChatServices";
+import { useChatStore } from "@/lib/store";
 
 interface RightClickContextProps {
   children: React.ReactNode;
@@ -17,28 +18,30 @@ interface RightClickContextProps {
 }
 
 const ChatRightClickContext = ({ children, user }: RightClickContextProps) => {
-  const handleArchive = async () => {
-    if (!user?.receiver_email) return;
-    const success = await archiveChat(user?.receiver_email);
-    if (success) {
-      user.archived = true;
-    }
-  };
-  const handleUnarchive = async () => {
-    if (!user?.receiver_email) return;
-    const success = await unarchiveChat(user.receiver_email);
-    if (success) {
-      user.archived = false;
-    }
-  };
-  const toggleArchive = async () => {
-    if (!user?.receiver_email) return;
-    if (user.archived) {
-      await handleUnarchive();
-    } else {
-      await handleArchive();
-    }
-  };
+  const toggleChatArchived = useChatStore((state) => state.toggleChatArchived);
+
+  // const handleArchive = async () => {
+  //   if (!user?.receiver_email) return;
+  //   const success = await archiveChat(user.receiver_email);
+  //   if (success) {
+  //     toggleChatArchived(user.receiver_email, true);
+  //   }
+  // };
+  // const handleUnarchive = async () => {
+  //   if (!user?.receiver_email) return;
+  //   const success = await unarchiveChat(user.receiver_email);
+  //   if (success) {
+  //     toggleChatArchived(user.receiver_email, false);
+  //   }
+  // };
+  // const toggleArchive = async () => {
+  //   if (!user?.receiver_email) return;
+  //   if (user.archived) {
+  //     await handleUnarchive();
+  //   } else {
+  //     await handleArchive();
+  //   }
+  // };
   useEffect(() => {
     console.log(user);
   });
@@ -51,12 +54,24 @@ const ChatRightClickContext = ({ children, user }: RightClickContextProps) => {
           <div
             onClick={(e) => {
               e.stopPropagation();
-              e.preventDefault(); // prevent radix from closing the menu
+              e.preventDefault();
             }}
           >
             <SwitchButton
-              defaultChecked={user?.archived ?? false} // fallback to false if user is undefined
-              onToggle={toggleArchive}
+              defaultChecked={user?.archived ?? false}
+              onToggle={async (checked) => {
+                if (!user?.receiver_email) return;
+
+                const email = user.receiver_email;
+
+                const success = checked
+                  ? await archiveChat(email)
+                  : await unarchiveChat(email);
+
+                if (success) {
+                  toggleChatArchived(email, checked);
+                }
+              }}
             />
           </div>
         </ContextMenuItem>

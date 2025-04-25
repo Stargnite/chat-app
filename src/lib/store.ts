@@ -14,6 +14,8 @@ interface ChatStore {
   messageData: Message | null
   mailList: MailCardType[] | null
   isComposingMail: boolean
+  toggleChatArchived: (email: string, archived: boolean) => void;
+
 
   // Actions
   setActiveTab: (tab: ChatTab) => void
@@ -43,6 +45,19 @@ export const useChatStore = create<ChatStore>((set) => ({
   chatList: [],
   mailList: null,
   isComposingMail: false,
+  toggleChatArchived: (email, archived) =>
+    set((state) => {
+      // Update selectedUser if it matches
+      if (state.selectedUser?.receiver_email === email) {
+        return {
+          selectedUser: {
+            ...state.selectedUser,
+            archived,
+          },
+        };
+      }
+      return {};
+    }),
 
   // Actions
   setActiveTab: (tab) => set({ activeTab: tab }),
