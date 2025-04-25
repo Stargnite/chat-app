@@ -43,6 +43,22 @@ export const deleteMessage = async (messageId: string) => {
   }
 };
 
+export const deleteMail = async (messageId: string) => {
+  try {
+    await axiosInstance.delete(`/api/v1/mail/${messageId}`);
+    
+    // Update local state to remove the message
+    // This depends on how you're storing messages
+    
+    console.log("Mail deleted successfully");
+    return true;
+  } catch (err) {
+    console.error("Error deleting mail:", err);
+    return false;
+  }
+};
+
+
 
 
 export const deleteChat = async (userMail: string) => {

@@ -1,12 +1,12 @@
 import { Avatar } from "@/components/ui/avatar";
 import { useChatStore } from "../lib/store";
 // import ChatInput from "./ChatInput";
-import { ArrowLeft, Ellipsis } from "lucide-react";
+import { ArrowLeft, Trash, Reply, Forward } from "lucide-react";
 // import RightClickContext from "./RightClickContext";
-import ToolTipWrapper from "./ToolTipWrapper";
 // import ChatBubble from "./ChatBubble";
 import axiosInstance from "@/api/api";
 import { useEffect, useState } from "react";
+import { deleteMail } from "@/services/ChatServices";
 
 export default function EmailBox() {
   const { selectedMail, setSelectedMail } = useChatStore();
@@ -14,7 +14,7 @@ export default function EmailBox() {
   // const [isReceived, setIsReceived] = useState(false);
 
   useEffect(() => {
-    const getConversations = async () => {
+    const fetchMail = async () => {
       try {
         const response = await axiosInstance.get(
           `/api/v1/email/${selectedMail?.senders_email}`
@@ -30,7 +30,7 @@ export default function EmailBox() {
       }
     };
 
-    getConversations();
+    fetchMail();
   }, [selectedMail]);
 
   return (
@@ -58,25 +58,46 @@ export default function EmailBox() {
                   {selectedMail.senders_email}
                 </h3>
                 <p className="text-xs text-gray-500 poppins-regular">
-                  
+                  {new Date(selectedMail.created_at).toLocaleTimeString([], {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                    weekday: "long",
+                  })}
                 </p>
               </div>
             </div>
 
             {/* Right click context menu trigger */}
-            <ToolTipWrapper>
-              {/* <RightClickContext user={selectedMail}> */}
-                <button className="flex items-center justify-center text-gray-500 cursor-pointer transition-all hover:opacity-70">
-                  <div className="rounded-full w-6 h-6 bg-blue-600 text-white flex items-center justify-center">
-                    <Ellipsis className="w-4 h-4" />
-                  </div>
-                </button>
-              {/* </RightClickContext> */}
-            </ToolTipWrapper>
+            <div className="flex items-center gap-x-3">
+              <div className="flex items-center gap-x-2 text-md cursor-pointer hover:bg-gray-300 py-0.5 px-1 rounded-md transition-all ">
+                <div className="text-gray-500">
+                  <Reply className="w-5 h-5" />
+                </div>
+                <p className="text-gray-800 font-semibold">Reply</p>
+              </div>
+              <div className="flex items-center gap-x-2 text-md cursor-pointer hover:bg-gray-300 py-0.5 px-1 rounded-md transition-all">
+                <div className="text-gray-500">
+                  <Forward className="w-5 h-5" />
+                </div>
+                <p className="text-gray-800 font-semibold">Forward</p>
+              </div>
+              <div className="flex items-center gap-x-2 text-md cursor-pointer hover:bg-gray-300 py-0.5 px-1 rounded-md transition-all"
+              onClick={() => deleteMail(selectedMail.id)}
+              >
+                <div className="text-red-500">
+                  <Trash className="w-5 h-5" />
+                </div>
+                <p className="text-gray-800 font-semibold">Delete</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="p-4 overflow-y-auto poppins-semibold text-gray-900">
+            {selectedMail.name}
           </div>
 
           {/* Mail message */}
-          <div className="flex-1 p-4 overflow-y-auto">
+          <div className="p-4 overflow-y-auto poppins-regular text-gray-900">
             {selectedMail.message}
           </div>
         </>

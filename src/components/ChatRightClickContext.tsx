@@ -11,6 +11,7 @@ import { ChatCardType } from "@/lib/types";
 import { useEffect } from "react";
 import { archiveChat, unarchiveChat } from "@/services/ChatServices";
 import { useChatStore } from "@/lib/store";
+import { deleteChat } from "@/services/ChatServices";
 
 interface RightClickContextProps {
   children: React.ReactNode;
@@ -99,7 +100,9 @@ const ChatRightClickContext = ({ children, user }: RightClickContextProps) => {
           </div>
           <p>Mark As Read</p>
         </ContextMenuItem>
-        <ContextMenuItem className="flex items-center gap-x-3 text-lg cursor-pointer hover:bg-gray-300 transition-all">
+        <ContextMenuItem
+        onClick={()=> deleteChat(user.receiver_email)}
+         className="flex items-center gap-x-3 text-lg cursor-pointer hover:bg-gray-300 transition-all">
           <div className="text-red-500">
             <Trash className="w-5 h-5" />
           </div>
