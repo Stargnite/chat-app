@@ -9,9 +9,9 @@ import axiosInstance from "@/api/api";
 import { useEffect, useState } from "react";
 
 export default function EmailBox() {
-  const { selectedMail, setSelectedMail, messageData } = useChatStore();
+  const { selectedMail, setSelectedMail } = useChatStore();
   const [conversation, setConversation] = useState([]);
-  const [isReceived, setIsReceived] = useState(false);
+  // const [isReceived, setIsReceived] = useState(false);
 
   useEffect(() => {
     const getConversations = async () => {
@@ -30,19 +30,12 @@ export default function EmailBox() {
       }
     };
 
-    if (selectedMail?.senders_email === messageData?.userId) {
-      setIsReceived(true);
-      console.log(isReceived);
-    } else {
-      setIsReceived(false);
-    }
-
     getConversations();
   }, [selectedMail]);
 
   return (
     <div
-      className={`flex flex-col min-h-[100vh] md:min-h-[88vh] md:max-h-[88vh] w-[100vw] bg-white shadow-sm rounded-sm
+      className={`flex flex-col min-h-full md:min-h-[88vh] md:max-h-[88vh] w-[100vw] bg-white shadow-sm rounded-sm
       ${selectedMail ? "block" : "hidden"}`}
     >
       {selectedMail ? (
@@ -65,8 +58,7 @@ export default function EmailBox() {
                   {selectedMail.senders_email}
                 </h3>
                 <p className="text-xs text-gray-500 poppins-regular">
-                  {/* {selectedMail.senders "Active now" : "Offline"} */}
-                  Active now
+                  
                 </p>
               </div>
             </div>
@@ -83,29 +75,10 @@ export default function EmailBox() {
             </ToolTipWrapper>
           </div>
 
-          {/* Chat messages */}
+          {/* Mail message */}
           <div className="flex-1 p-4 overflow-y-auto">
-            {/* <ChatBubble
-              message={"heyy"}
-              timestamp="12:00"
-              userName={selectedMail?.senders_email}
-              userAvatar={selectedMail.name}
-              isReceived={true}
-            />
-            {messageData && (
-              <ChatBubble
-                messageId={messageData.id}
-                message={messageData.text}
-                timestamp={messageData.timestamp}
-                userName={selectedMail?.senders_email}
-                userAvatar="test"
-                isReceived={false}
-              />
-            )} */}
+            {selectedMail.message}
           </div>
-
-          {/* Message input */}
-          <ChatInput />
         </>
       ) : (
         <div className="flex justify-center items-center h-full">

@@ -71,7 +71,7 @@ export default function ComposeMailBox() {
 
   return (
     <div
-      className={`flex flex-col min-h-[100vh] md:min-h-[88vh] md:max-h-[88vh] w-[100vw] bg-white shadow-sm rounded-sm text-black  ${
+      className={`flex flex-col min-h-full md:min-h-[88vh] md:max-h-[88vh] w-[100vw] bg-white shadow-sm rounded-sm text-black  ${
         selectedMail ? "hidden" : "block"
       }`}
     >
