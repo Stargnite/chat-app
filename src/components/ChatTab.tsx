@@ -42,40 +42,7 @@ const ChatTab = () => {
       try {
         const response = await axiosInstance.get("/api/v1/contacts");
         const data = response.data.data;
-        setContacts([
-          {
-            receiver_id: "oksanasuxanova@mail.com",
-            receiver_name: "Robertodip Robertodip",
-            receiver_email: "oksanasuxanova@mail.com",
-            receiver_picture: null,
-            last_message: "How are you doing?",
-            last_sent_at: "2025-02-20T12:50:23.000000Z",
-          },
-          {
-            receiver_id: "ashu@gmail.com",
-            receiver_name: "ashutosh roy",
-            receiver_email: "ashu@gmail.com",
-            receiver_picture: null,
-            last_message: "Try again with document again",
-            last_sent_at: "2025-02-20T11:12:25.000000Z",
-          },
-          {
-            receiver_id: "ashu2@gmail.com",
-            receiver_name: "ashutosh roy",
-            receiver_email: "ashu@gmail.com",
-            receiver_picture: null,
-            last_message: "Try again with document again",
-            last_sent_at: "2025-02-20T11:12:25.000000Z",
-          },
-          {
-            receiver_id: "ashu3@gmail.com",
-            receiver_name: "ashutosh roy",
-            receiver_email: "ashu@gmail.com",
-            receiver_picture: null,
-            last_message: "Try again with document again",
-            last_sent_at: "2025-02-20T11:12:25.000000Z",
-          },
-        ]);
+        setContacts(data);
         console.log(data);
         console.log("Contacts fetched successfully:", data);
       } catch (err) {
@@ -136,8 +103,8 @@ const ChatTab = () => {
 
       {/* Chat list */}
       <div className="flex-1 overflow-y-auto">
-        {filteredMessages.map((user: ChatCardType) => (
-          <ChatRightClickContext key={user?.receiver_id} user={selectedUser}>
+        {filteredMessages.map((user) => (
+          <ChatRightClickContext key={user?.receiver_id} user={user}>
             <ChatCard user={user} onUserSelect={handleUserSelect} selectedUser={selectedUser} />
           </ChatRightClickContext>
         ))}
@@ -147,3 +114,40 @@ const ChatTab = () => {
 };
 
 export default ChatTab;
+
+
+
+ // [
+        //   {
+        //     receiver_id: "oksanasuxanova@mail.com",
+        //     receiver_name: "Robertodip Robertodip",
+        //     receiver_email: "oksanasuxanova@mail.com",
+        //     receiver_picture: null,
+        //     last_message: "How are you doing?",
+        //     last_sent_at: "2025-02-20T12:50:23.000000Z",
+        //   },
+        //   {
+        //     receiver_id: "ashu@gmail.com",
+        //     receiver_name: "ashutosh roy",
+        //     receiver_email: "ashu@gmail.com",
+        //     receiver_picture: null,
+        //     last_message: "Try again with document again",
+        //     last_sent_at: "2025-02-20T11:12:25.000000Z",
+        //   },
+        //   {
+        //     receiver_id: "ashu2@gmail.com",
+        //     receiver_name: "ashutosh roy",
+        //     receiver_email: "ashu@gmail.com",
+        //     receiver_picture: null,
+        //     last_message: "Try again with document again",
+        //     last_sent_at: "2025-02-20T11:12:25.000000Z",
+        //   },
+        //   {
+        //     receiver_id: "ashu3@gmail.com",
+        //     receiver_name: "ashutosh roy",
+        //     receiver_email: "ashu@gmail.com",
+        //     receiver_picture: null,
+        //     last_message: "Try again with document again",
+        //     last_sent_at: "2025-02-20T11:12:25.000000Z",
+        //   },
+        // ]

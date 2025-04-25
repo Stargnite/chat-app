@@ -14,7 +14,7 @@ import { useChatStore } from "@/lib/store";
 
 interface RightClickContextProps {
   children: React.ReactNode;
-  user: ChatCardType | undefined;
+  user: ChatCardType
 }
 
 const ChatRightClickContext = ({ children, user }: RightClickContextProps) => {
@@ -43,7 +43,7 @@ const ChatRightClickContext = ({ children, user }: RightClickContextProps) => {
   //   }
   // };
   useEffect(() => {
-    console.log(user);
+    console.log("Right clicked user>>>>>>>", user);
   });
   return (
     <ContextMenu>
@@ -70,6 +70,7 @@ const ChatRightClickContext = ({ children, user }: RightClickContextProps) => {
 
                 if (success) {
                   toggleChatArchived(email, checked);
+                  console.log("archiving/Unarchiving done successfully!!!!!")
                 }
               }}
             />
