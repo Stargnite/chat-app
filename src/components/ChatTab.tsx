@@ -42,7 +42,7 @@ const ChatTab = () => {
       try {
         const response = await axiosInstance.get("/api/v1/contacts");
         const data = response.data.data;
-        setContacts(data);
+        // setContacts(data);
         console.log(data);
         console.log("Contacts fetched successfully:", data);
       } catch (err) {
