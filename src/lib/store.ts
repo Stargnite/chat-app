@@ -1,5 +1,6 @@
 import { create } from 'zustand'
 import type { ChatTab, ChatCardType, MailCardType, Message } from './types'
+// import ChatCard from '@/components/ChatCard'
 
 interface ChatStore {
   // State

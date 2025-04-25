@@ -7,36 +7,38 @@ import {
 // import { Switch } from "@/components/ui/switch"
 import { Check, Trash, Ban, Pin } from "lucide-react";
 import { SwitchButton } from "@/components/switch-button";
-// import { User } from "@/lib/types";
 import { ChatCardType } from "@/lib/types";
 import { useEffect } from "react";
-// import { archiveChat, unarchiveChat } from "@/services/ChatServices";
+import { archiveChat, unarchiveChat } from "@/services/ChatServices";
 
 interface RightClickContextProps {
   children: React.ReactNode;
   user: ChatCardType | undefined;
 }
 
-const RightClickContext = ({ children, user }: RightClickContextProps) => {
-  // const handleArchive = async () => {
-  // 	const success = await archiveChat(user.receiver_email);
-  // 	if (success) {
-  // 		user.archived = true;
-  // 	}
-  // };
-  // const handleUnarchive = async () => {
-  // 	const success = await unarchiveChat(user.receiver_email);
-  // 	if (success) {
-  // 		user.archived = false;
-  // 	}
-  // };
-  // const toggleArchive = async () => {
-  // 	if (user.archived) {
-  // 		await handleUnarchive();
-  // 	} else {
-  // 		await handleArchive();
-  // 	}
-  // }
+const ChatRightClickContext = ({ children, user }: RightClickContextProps) => {
+  const handleArchive = async () => {
+    if (!user?.receiver_email) return;
+    const success = await archiveChat(user?.receiver_email);
+    if (success) {
+      user.archived = true;
+    }
+  };
+  const handleUnarchive = async () => {
+    if (!user?.receiver_email) return;
+    const success = await unarchiveChat(user.receiver_email);
+    if (success) {
+      user.archived = false;
+    }
+  };
+  const toggleArchive = async () => {
+    if (!user?.receiver_email) return;
+    if (user.archived) {
+      await handleUnarchive();
+    } else {
+      await handleArchive();
+    }
+  };
   useEffect(() => {
     console.log(user);
   });
@@ -48,12 +50,14 @@ const RightClickContext = ({ children, user }: RightClickContextProps) => {
           <p>Archive Chat</p>
           <div
             onClick={(e) => {
-              // toggleArchive();
               e.stopPropagation();
               e.preventDefault(); // prevent radix from closing the menu
             }}
           >
-            <SwitchButton />
+            <SwitchButton
+              defaultChecked={user?.archived ?? false} // fallback to false if user is undefined
+              onToggle={toggleArchive}
+            />
           </div>
         </ContextMenuItem>
         <ContextMenuItem className="flex items-center justify-between text-lg cursor-pointer transition-all">
@@ -96,7 +100,7 @@ const RightClickContext = ({ children, user }: RightClickContextProps) => {
   );
 };
 
-export default RightClickContext;
+export default ChatRightClickContext;
 
 // import {
 // 	ContextMenu,

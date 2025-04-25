@@ -1,7 +1,7 @@
 import { useChatStore } from "../lib/store";
 // import { users } from "./../lib/mock-data";
 import { cn } from "../lib/utils";
-import RightClickContext from "./RightClickContext";
+import ChatRightClickContext from "./ChatRightClickContext";
 import ChatCard from "./ChatCard";
 import axiosInstance from "@/api/api";
 import { useEffect, useState, useMemo } from "react";
@@ -134,10 +134,10 @@ const ChatTab = () => {
 
       {/* Chat list */}
       <div className="flex-1 overflow-y-auto">
-        {filteredMessages.map((user: ChatCardType | any) => (
-          <RightClickContext key={user.receiver_id} user={selectedUser}>
+        {filteredMessages.map((user: ChatCardType) => (
+          <ChatRightClickContext key={user?.receiver_id} user={selectedUser}>
             <ChatCard user={user} onUserSelect={handleUserSelect} selectedUser={selectedUser} />
-          </RightClickContext>
+          </ChatRightClickContext>
         ))}
       </div>
     </>
