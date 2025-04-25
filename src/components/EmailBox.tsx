@@ -67,7 +67,6 @@ export default function EmailBox() {
               </div>
             </div>
 
-            {/* Right click context menu trigger */}
             <div className="flex items-center gap-x-3">
               <div className="flex items-center gap-x-2 text-md cursor-pointer hover:bg-gray-300 py-0.5 px-1 rounded-md transition-all ">
                 <div className="text-gray-500">
@@ -81,8 +80,9 @@ export default function EmailBox() {
                 </div>
                 <p className="text-gray-800 font-semibold">Forward</p>
               </div>
-              <div className="flex items-center gap-x-2 text-md cursor-pointer hover:bg-gray-300 py-0.5 px-1 rounded-md transition-all"
-              onClick={() => deleteMail(selectedMail.id)}
+              <div
+                className="flex items-center gap-x-2 text-md cursor-pointer hover:bg-gray-300 py-0.5 px-1 rounded-md transition-all"
+                onClick={() => deleteMail(selectedMail.id)}
               >
                 <div className="text-red-500">
                   <Trash className="w-5 h-5" />
@@ -92,9 +92,37 @@ export default function EmailBox() {
             </div>
           </div>
 
-          <div className="p-4 overflow-y-auto poppins-semibold text-gray-900">
-            {selectedMail.name}
+          <div className="p-4 overflow-y-auto poppins-medium text-gray-900">
+            Re: {selectedMail.name}
           </div>
+
+          {selectedMail.attachments && (
+            <div className="p-4">
+              {selectedMail.attachments.media_type.startsWith("image/") ? (
+                <div className="flex flex-col gap-0.5">
+                  <img
+                    src={selectedMail.attachments.media_url}
+                    alt="attachment"
+                    className="w-full max-w-xs rounded"
+                  />
+                  <p>{selectedMail.attachments.media_type}</p>
+                </div>
+              ) : (
+                <div className="flex items-center gap-2">
+                  <a
+                    href={selectedMail.attachments.media_url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex text-center items-center justify-center min-w-[100px] min-h-[100px] bg-gray-600 rounded-sm text-whiteunderline text-sm"
+                  >
+                    <span className="text-white">
+                      {selectedMail.attachments.media_type}
+                    </span>
+                  </a>
+                </div>
+              )}
+            </div>
+          )}
 
           {/* Mail message */}
           <div className="p-4 overflow-y-auto poppins-regular text-gray-900">
