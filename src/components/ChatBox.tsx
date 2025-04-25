@@ -8,6 +8,7 @@ import ChatBubble from "./ChatBubble";
 import axiosInstance from "@/api/api";
 import { useEffect, useRef, useState } from "react";
 import socket from "../lib/socket";
+import MessageRightClickContext from "./MessageRightClickContext";
 
 export default function ChatBox() {
   const { selectedUser, setSelectedUser, messageData } = useChatStore();
@@ -230,6 +231,7 @@ export default function ChatBox() {
             {conversation.length > 0 ? (
               conversation.map((msg) => (
                 <div key={msg.id} className="">
+                  <MessageRightClickContext mailId={msg.id}>
                   <ChatBubble
                     messageId={msg.id}
                     message={msg.message}
@@ -241,6 +243,7 @@ export default function ChatBox() {
                     userAvatar={msg.sender_picture || "/placeholder.svg"}
                     isReceived={msg.sender_email !== "tech@vindove.com"? true : false} // Adjust as needed
                   />
+                  </MessageRightClickContext>
                   <div ref={messagesEndRef} />
                 </div>
               ))
