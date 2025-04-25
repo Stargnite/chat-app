@@ -21,8 +21,16 @@ export default function ChatWidget() {
     return (
       <div className="w-full items-end justify-center md:justify-end">
         <div className="flex w-full max-w-[1280px] md:p-8 gap-x-5 h-[100vh] bg-transparent items-center md:items-end">
-          <Sidebar />
-          <ComposeMailBox />
+          {/* <Sidebar />
+          <ComposeMailBox /> */}
+          {isMobile ? (
+            !selectedUser || !selectedMail ? <ComposeMailBox /> : <Sidebar />
+          ) : (
+            <>
+              <Sidebar />
+              <ComposeMailBox />
+            </>
+          )}
         </div>
       </div>
     );
