@@ -12,6 +12,7 @@ interface ChatStore {
   recipientMenuOpen: boolean
   messageData: Message | null
   mailList: MailCardType[] | null
+  isComposingMail: boolean
 
   // Actions
   setActiveTab: (tab: ChatTab) => void
@@ -25,6 +26,7 @@ interface ChatStore {
   handleMailSelect: (mail: MailCardType) => void
   handleNewChat: () => void
   setRecipientMenuOpen: (open: boolean) => void
+  setIsComposingMail: (open: boolean) => void
 }
 
 export const useChatStore = create<ChatStore>((set) => ({
@@ -39,6 +41,7 @@ export const useChatStore = create<ChatStore>((set) => ({
   messageData: null,
   chatList: [],
   mailList: null,
+  isComposingMail: false,
 
   // Actions
   setActiveTab: (tab) => set({ activeTab: tab }),
@@ -49,19 +52,25 @@ export const useChatStore = create<ChatStore>((set) => ({
   setEmailsFilter: (filter) => set({ emailsFilter: filter }),
   setRecipientMenuOpen: (open) => set({ recipientMenuOpen: open }),
   setMessageData: (messageData) => set({ messageData }),
+  setIsComposingMail: (status: boolean) => set({ isComposingMail: status }),
+  
 
   handleUserSelect: (user) => set({
     selectedUser: user,
     recipientMenuOpen: false,
+    isComposingMail:false
   }),
 
   handleMailSelect: (mail) => set({
     selectedMail: mail,
     recipientMenuOpen: false,
+    isComposingMail:false
   }),
 
   handleNewChat: () => set({
     selectedUser: undefined,
+    selectedMail: undefined,
+    isComposingMail: true,
     recipientMenuOpen: true,
   }),
 }))

@@ -7,11 +7,12 @@ import ChatTab from "./ChatTab"
 import EmailTab from "./EmailTab"
 
 
+
 export default function Sidebar() {
   const {
     activeTab,
     setActiveTab,
-    handleNewChat
+    handleNewChat,
   } = useChatStore()
 
   return (
@@ -42,7 +43,7 @@ export default function Sidebar() {
             Email
           </button>
         </div>
-        {/* Add new chat button */}
+        {/* Create new mail button */}
         <button className="flex items-center justify-center text-gray-500 cursor-pointer transition-all hover:opacity-70" onClick={handleNewChat}>
           <div className="rounded-full w-7 h-7 bg-blue-600 text-white flex items-center justify-center">
             <SquarePen className="w-4 h-4" />

@@ -4,7 +4,7 @@ import ChatInput from "./ChatInput";
 import { ArrowLeft, Ellipsis } from "lucide-react";
 // import RightClickContext from "./RightClickContext";
 import ToolTipWrapper from "./ToolTipWrapper";
-import ChatBubble from "./ChatBubble";
+// import ChatBubble from "./ChatBubble";
 import axiosInstance from "@/api/api";
 import { useEffect, useState } from "react";
 
@@ -85,7 +85,7 @@ export default function EmailBox() {
 
           {/* Chat messages */}
           <div className="flex-1 p-4 overflow-y-auto">
-            <ChatBubble
+            {/* <ChatBubble
               message={"heyy"}
               timestamp="12:00"
               userName={selectedMail?.senders_email}
@@ -101,25 +101,7 @@ export default function EmailBox() {
                 userAvatar="test"
                 isReceived={false}
               />
-            )}
-            {/* {conversation.length > 0 ? (
-              conversation.map((message) => (
-              <ChatBubble
-                messageId={messageData.id}
-                message={messageData.text}
-                timestamp={messageData.timestamp}
-                userName={selectedUser.receiver_name}
-                userAvatar="test"
-                isReceived={false}
-              />
-                <ChatBubble key={index} message={msg.message} timestamp={msg.timestamp} userName={selectedUser.name} userAvatar="test" isReceived={msg.isReceived} />
-              ))} */}
-            {/* <div className="flex flex-col space-y-5 items-center h-full text-gray-500 text-sm">
-              <Avatar className="h-20 w-20 mr-3">
-                <img src={selectedUser.avatar || "/placeholder.svg"} alt={selectedUser.name} />
-              </Avatar>
-              <p className="poppins-medium">Start a conversation with {selectedUser.name} </p>
-            </div> */}
+            )} */}
           </div>
 
           {/* Message input */}
