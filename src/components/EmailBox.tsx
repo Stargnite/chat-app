@@ -1,6 +1,6 @@
 import { Avatar } from "@/components/ui/avatar";
 import { useChatStore } from "../lib/store";
-import ChatInput from "./ChatInput";
+// import ChatInput from "./ChatInput";
 import { ArrowLeft, Ellipsis } from "lucide-react";
 // import RightClickContext from "./RightClickContext";
 import ToolTipWrapper from "./ToolTipWrapper";
