@@ -1,11 +1,12 @@
 import axiosInstance from "@/api/api";
 
 // Export these functions to be imported where needed
-export const archiveChat = async (userMail: string) => {
+export const archiveChat = async (userMail: string, is_archived: boolean | undefined) => {
   try {
     await axiosInstance.put(`/api/v1/archive/${userMail}`);
     
     console.log("Chat archived successfully");
+    is_archived = true;
     alert("Chat archived successfully");
     return true;
   } catch (err) {
@@ -14,10 +15,10 @@ export const archiveChat = async (userMail: string) => {
   }
 };
 
-export const unarchiveChat = async (userMail: string) => {
+export const unarchiveChat = async (userMail: string, is_archived: boolean | undefined) => {
   try {
     await axiosInstance.put(`/api/v1/unarchive/${userMail}`);
-
+    is_archived = false;
     console.log("Chat unarchived successfully");
     alert("Chat unarchived successfully");
     return true;

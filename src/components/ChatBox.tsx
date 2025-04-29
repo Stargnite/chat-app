@@ -145,17 +145,17 @@ export default function ChatBox() {
             updated_at: "2025-04-10T14:12:49.000000Z",
           },
         ])
-        console.log("conversations>>>>", conversation);
+        // console.log("conversations>>>>", conversation);
 
-        console.log("Conversation for the selected user>>>>>>>>>>", data);
+        // console.log("Conversation for the selected user>>>>>>>>>>", data);
       } catch (error) {
-        console.log("error for fetching selectedUser's chats", error);
+        // console.log("error for fetching selectedUser's chats", error);
       }
     };
 
     if (selectedUser?.receiver_email === messageData?.sender_id) {
       setIsReceived(true);
-      console.log(isReceived);
+      // console.log(isReceived);
     } else {
       setIsReceived(false);
     }

@@ -2,6 +2,7 @@ import { useState } from "react"
 import { motion } from "framer-motion"
 import { cn } from "@/lib/utils"
 
+
 interface SwitchButtonProps {
   defaultChecked?: boolean
   onToggle?: (isChecked: boolean) => void
@@ -9,7 +10,7 @@ interface SwitchButtonProps {
   id?: string
 }
 
-export function SwitchButton({ defaultChecked = false, onToggle, label, id = "switch" }: SwitchButtonProps) {
+export function SwitchButton({ defaultChecked, onToggle, label, id = "switch" }: SwitchButtonProps) {
   const [isChecked, setIsChecked] = useState(defaultChecked)
 
   const handleToggle = () => {

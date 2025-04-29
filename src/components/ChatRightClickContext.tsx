@@ -19,30 +19,9 @@ interface RightClickContextProps {
 }
 
 const ChatRightClickContext = ({ children, user }: RightClickContextProps) => {
-  const toggleChatArchived = useChatStore((state) => state.toggleChatArchived);
+  const {updateArchivedStatus} = useChatStore();
+  // const toggleChatArchived = useChatStore((state) => state.toggleChatArchived);
 
-  // const handleArchive = async () => {
-  //   if (!user?.receiver_email) return;
-  //   const success = await archiveChat(user.receiver_email);
-  //   if (success) {
-  //     toggleChatArchived(user.receiver_email, true);
-  //   }
-  // };
-  // const handleUnarchive = async () => {
-  //   if (!user?.receiver_email) return;
-  //   const success = await unarchiveChat(user.receiver_email);
-  //   if (success) {
-  //     toggleChatArchived(user.receiver_email, false);
-  //   }
-  // };
-  // const toggleArchive = async () => {
-  //   if (!user?.receiver_email) return;
-  //   if (user.archived) {
-  //     await handleUnarchive();
-  //   } else {
-  //     await handleArchive();
-  //   }
-  // };
   useEffect(() => {
     console.log("Right clicked user>>>>>>>", user);
   });
@@ -59,19 +38,17 @@ const ChatRightClickContext = ({ children, user }: RightClickContextProps) => {
             }}
           >
             <SwitchButton
-              defaultChecked={user?.archived ?? false}
+              defaultChecked={user?.archived}
               onToggle={async (checked) => {
                 if (!user?.receiver_email) return;
-
+              
                 const email = user.receiver_email;
-
-                const success = checked
-                  ? await archiveChat(email)
-                  : await unarchiveChat(email);
-
+                const action = checked ? archiveChat : unarchiveChat;
+              
+                const success = await action(email, checked);
                 if (success) {
-                  toggleChatArchived(email, checked);
-                  console.log("archiving/Unarchiving done successfully!!!!!")
+                  updateArchivedStatus(email, checked);
+                  console.log(`Chat ${checked ? "archived" : "unarchived"} successfully`);
                 }
               }}
             />

@@ -4,30 +4,13 @@ import { cn } from "../lib/utils";
 import ChatRightClickContext from "./ChatRightClickContext";
 import ChatCard from "./ChatCard";
 import axiosInstance from "@/api/api";
-import { useEffect, useState, useMemo } from "react";
-import { ChatCardType } from "@/lib/types";
+import { useEffect, 
+    // useState, 
+    useMemo } from "react";
+// import { ChatCardType } from "@/lib/types";
 
 const ChatTab = () => {
-  const [contacts, setContacts] = useState<ChatCardType[]>([
-    {
-      receiver_id: "oksanasuxanova@mail.com",
-      receiver_name: "Robertodip Robertodip",
-      receiver_email: "oksanasuxanova@mail.com",
-      receiver_picture: null,
-      last_message: "How are you doing?",
-      last_sent_at: "2025-02-20T12:50:23.000000Z",
-      archived: true
-    },
-    {
-      receiver_id: "ashu@gmail.com",
-      receiver_name: "ashutosh roy",
-      receiver_email: "ashu@gmail.com",
-      receiver_picture: null,
-      last_message: "Try again with document again",
-      last_sent_at: "2025-02-20T11:12:25.000000Z",
-      archived: false
-    },
-  ]);
+  //   const [contacts, setContacts] = useState<ChatCardType[]>([]);
 
   const {
     searchQuery,
@@ -35,6 +18,8 @@ const ChatTab = () => {
     setMessagesFilter,
     handleUserSelect,
     selectedUser,
+    contacts,
+    setContacts,
   } = useChatStore();
 
   useEffect(() => {
@@ -42,15 +27,14 @@ const ChatTab = () => {
       try {
         const response = await axiosInstance.get("/api/v1/contacts");
         const data = response.data.data;
-        // setContacts(data);
-        console.log(data);
+        setContacts(data);
         console.log("Contacts fetched successfully:", data);
       } catch (err) {
         console.error("Error fetching contacts:", err);
       }
     };
     fetchContacts();
-  }, [setContacts]);
+  }, [setContacts, contacts]);
 
   // Filter and sort messages
   // Filter and sort messages
@@ -67,7 +51,7 @@ const ChatTab = () => {
           messagesFilter === "unread"
             ? false // TODO: implement unread logic
             : messagesFilter === "archived"
-            ? false // TODO: implement archived logic
+            ? contact.archived === false // TODO: implement archived logic
             : true;
 
         return matchesSearch && matchesFilter;
@@ -105,7 +89,11 @@ const ChatTab = () => {
       <div className="flex-1 overflow-y-auto">
         {filteredMessages.map((user) => (
           <ChatRightClickContext key={user?.receiver_id} user={user}>
-            <ChatCard user={user} onUserSelect={handleUserSelect} selectedUser={selectedUser} />
+            <ChatCard
+              user={user}
+              onUserSelect={handleUserSelect}
+              selectedUser={selectedUser}
+            />
           </ChatRightClickContext>
         ))}
       </div>
@@ -115,39 +103,37 @@ const ChatTab = () => {
 
 export default ChatTab;
 
-
-
- // [
-        //   {
-        //     receiver_id: "oksanasuxanova@mail.com",
-        //     receiver_name: "Robertodip Robertodip",
-        //     receiver_email: "oksanasuxanova@mail.com",
-        //     receiver_picture: null,
-        //     last_message: "How are you doing?",
-        //     last_sent_at: "2025-02-20T12:50:23.000000Z",
-        //   },
-        //   {
-        //     receiver_id: "ashu@gmail.com",
-        //     receiver_name: "ashutosh roy",
-        //     receiver_email: "ashu@gmail.com",
-        //     receiver_picture: null,
-        //     last_message: "Try again with document again",
-        //     last_sent_at: "2025-02-20T11:12:25.000000Z",
-        //   },
-        //   {
-        //     receiver_id: "ashu2@gmail.com",
-        //     receiver_name: "ashutosh roy",
-        //     receiver_email: "ashu@gmail.com",
-        //     receiver_picture: null,
-        //     last_message: "Try again with document again",
-        //     last_sent_at: "2025-02-20T11:12:25.000000Z",
-        //   },
-        //   {
-        //     receiver_id: "ashu3@gmail.com",
-        //     receiver_name: "ashutosh roy",
-        //     receiver_email: "ashu@gmail.com",
-        //     receiver_picture: null,
-        //     last_message: "Try again with document again",
-        //     last_sent_at: "2025-02-20T11:12:25.000000Z",
-        //   },
-        // ]
+// [
+//   {
+//     receiver_id: "oksanasuxanova@mail.com",
+//     receiver_name: "Robertodip Robertodip",
+//     receiver_email: "oksanasuxanova@mail.com",
+//     receiver_picture: null,
+//     last_message: "How are you doing?",
+//     last_sent_at: "2025-02-20T12:50:23.000000Z",
+//   },
+//   {
+//     receiver_id: "ashu@gmail.com",
+//     receiver_name: "ashutosh roy",
+//     receiver_email: "ashu@gmail.com",
+//     receiver_picture: null,
+//     last_message: "Try again with document again",
+//     last_sent_at: "2025-02-20T11:12:25.000000Z",
+//   },
+//   {
+//     receiver_id: "ashu2@gmail.com",
+//     receiver_name: "ashutosh roy",
+//     receiver_email: "ashu@gmail.com",
+//     receiver_picture: null,
+//     last_message: "Try again with document again",
+//     last_sent_at: "2025-02-20T11:12:25.000000Z",
+//   },
+//   {
+//     receiver_id: "ashu3@gmail.com",
+//     receiver_name: "ashutosh roy",
+//     receiver_email: "ashu@gmail.com",
+//     receiver_picture: null,
+//     last_message: "Try again with document again",
+//     last_sent_at: "2025-02-20T11:12:25.000000Z",
+//   },
+// ]

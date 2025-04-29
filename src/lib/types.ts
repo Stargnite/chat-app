@@ -23,15 +23,6 @@ export interface Message {
   id: string
   created_at: string
   updated_at: string
-  // id?: string
-  // userId?: string
-  // text?: string
-  // timestamp?: string
-  // time?: string
-  // unread?: boolean
-  // unreadCount?: number
-  // isNew?: boolean
-  // archived?: boolean
 }
 
 export  interface MailCardType {
@@ -52,14 +43,3 @@ export  interface MailCardType {
     updated_at: string;
   };
 };
-
-
-
-// export interface User {
-//   id: string
-//   name: string
-//   avatar: string
-//   online: boolean
-//   archived?: boolean
-// }
-

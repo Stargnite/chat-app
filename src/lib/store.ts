@@ -14,7 +14,10 @@ interface ChatStore {
   messageData: Message | null
   mailList: MailCardType[] | null
   isComposingMail: boolean
-  toggleChatArchived: (email: string, archived: boolean) => void;
+  // toggleChatArchived: (email: string, archived: boolean) => void;
+  contacts: ChatCardType[]
+  setContacts: (contacts: ChatCardType[]) => void
+  updateArchivedStatus: (email: string, archived: boolean) => void
 
 
   // Actions
@@ -32,7 +35,7 @@ interface ChatStore {
   setIsComposingMail: (open: boolean) => void
 }
 
-export const useChatStore = create<ChatStore>((set) => ({
+export const useChatStore = create<ChatStore>((set, get) => ({
   // Initial state
   activeTab: 'chat',
   selectedUser: undefined,
@@ -42,22 +45,22 @@ export const useChatStore = create<ChatStore>((set) => ({
   emailsFilter: 'inbox',
   recipientMenuOpen: false,
   messageData: null,
-  chatList: [],
+  contacts: [],
   mailList: null,
   isComposingMail: false,
-  toggleChatArchived: (email, archived) =>
-    set((state) => {
-      // Update selectedUser if it matches
-      if (state.selectedUser?.receiver_email === email) {
-        return {
-          selectedUser: {
-            ...state.selectedUser,
-            archived,
-          },
-        };
-      }
-      return {};
-    }),
+  // toggleChatArchived: (email, archived) =>
+  //   set((state) => {
+  //     // Update selectedUser if it matches
+  //     if (state.selectedUser?.receiver_email === email) {
+  //       return {
+  //         selectedUser: {
+  //           ...state.selectedUser,
+  //           archived,
+  //         },
+  //       };
+  //     }
+  //     return {};
+  //   }),
 
   // Actions
   setActiveTab: (tab) => set({ activeTab: tab }),
@@ -69,7 +72,27 @@ export const useChatStore = create<ChatStore>((set) => ({
   setRecipientMenuOpen: (open) => set({ recipientMenuOpen: open }),
   setMessageData: (messageData) => set({ messageData }),
   setIsComposingMail: (status: boolean) => set({ isComposingMail: status }),
+  setContacts: (contacts) => set({ contacts }),
+
+  updateArchivedStatus: (email, archived) => {
+    const { contacts, selectedUser } = get();
+
+    const updatedContacts = contacts.map((contact: ChatCardType) =>
+      contact.receiver_email === email
+        ? { ...contact, archived }
+        : contact
+    );
   
+    const updatedSelectedUser =
+      selectedUser?.receiver_email === email
+        ? { ...selectedUser, archived }
+        : selectedUser;
+
+    set({
+      contacts: updatedContacts,
+      selectedUser: updatedSelectedUser,
+    });
+  },
 
   handleUserSelect: (user) => set({
     selectedUser: user,
