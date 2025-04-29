@@ -23,7 +23,7 @@ const ChatRightClickContext = ({ children, user }: RightClickContextProps) => {
   // const toggleChatArchived = useChatStore((state) => state.toggleChatArchived);
 
   useEffect(() => {
-    console.log("Right clicked user>>>>>>>", user);
+    // console.log("Right clicked user>>>>>>>", user);
   });
   return (
     <ContextMenu>

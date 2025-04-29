@@ -11,7 +11,7 @@ interface ChatBubbleProps {
 }
 
 export default function ChatBubble({
-  messageId,
+  // messageId,
   message,
   timestamp,
   userName,
@@ -19,7 +19,7 @@ export default function ChatBubble({
   isReceived,
 }: ChatBubbleProps) {
   // If it's a received message, show the avatar and name
-  console.log(messageId)
+  // console.log(messageId)
   if (isReceived) {
     return (
       <div className="flex items-start mb-4 max-w-[85%]">

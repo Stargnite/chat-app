@@ -10,7 +10,16 @@ import { useEffect, useRef, useState } from "react";
 import socket from "../lib/socket";
 import MessageRightClickContext from "./MessageRightClickContext";
 
-export default function ChatBox() {
+export default function ChatBox({
+  currentUser,
+}: {
+  currentUser: {
+    id: number;
+    name: string;
+    email: string;
+    picture: string;
+  };
+}) {
   const { selectedUser, setSelectedUser, messageData } = useChatStore();
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
   const [conversation, setConversation] = useState([
@@ -72,7 +81,6 @@ export default function ChatBox() {
       updated_at: "2025-04-10T14:12:49.000000Z",
     },
   ]);
-  const [isReceived, setIsReceived] = useState(false);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -86,65 +94,7 @@ export default function ChatBox() {
         );
         const data = response.data.data;
 
-        setConversation([
-          {
-            id: "0196200f-2be1-7333-b71b-8a1cec9d09e3",
-            sender_id: 3731,
-            sender_picture: "",
-            sender_name: "",
-            sender_email: "tech@vindove.com",
-            receiver_id: 1046,
-            receiver_picture:
-              "https://profile11.s3.ca-central-1.amazonaws.com/2635010406",
-            receiver_name: "ashish lakhani",
-            receiver_email: "ashish7730@gmail.com",
-            message: "Lets go again",
-            document: null,
-            archived_for: null,
-            deleted_for: null,
-            read_at: null,
-            created_at: "2025-04-10T14:16:27.000000Z",
-            updated_at: "2025-04-10T14:16:27.000000Z",
-          },
-          {
-            id: "0196200c-4493-7125-928a-bf95ba6cc3fe",
-            sender_id: 3731,
-            sender_picture: "",
-            sender_name: "",
-            sender_email: "tech@vindove.com",
-            receiver_id: 1046,
-            receiver_picture:
-              "https://profile11.s3.ca-central-1.amazonaws.com/2635010406",
-            receiver_name: "ashish lakhani",
-            receiver_email: "ashish7730@gmail.com",
-            message: "Hello, hope this works",
-            document: null,
-            archived_for: null,
-            deleted_for: null,
-            read_at: null,
-            created_at: "2025-04-10T14:13:17.000000Z",
-            updated_at: "2025-04-10T14:13:17.000000Z",
-          },
-          {
-            id: "0196200b-d6e4-7072-b38c-69697fd2bc73",
-            sender_id: 3731,
-            sender_picture: "",
-            sender_name: "",
-            sender_email: "tech@vindove.com",
-            receiver_id: 1046,
-            receiver_picture:
-              "https://profile11.s3.ca-central-1.amazonaws.com/2635010406",
-            receiver_name: "ashish lakhani",
-            receiver_email: "ashish7730@gmail.com",
-            message: "Hello, hope this works",
-            document: null,
-            archived_for: null,
-            deleted_for: null,
-            read_at: null,
-            created_at: "2025-04-10T14:12:49.000000Z",
-            updated_at: "2025-04-10T14:12:49.000000Z",
-          },
-        ])
+        setConversation(data);
         // console.log("conversations>>>>", conversation);
 
         // console.log("Conversation for the selected user>>>>>>>>>>", data);
@@ -153,31 +103,23 @@ export default function ChatBox() {
       }
     };
 
-    if (selectedUser?.receiver_email === messageData?.sender_id) {
-      setIsReceived(true);
-      // console.log(isReceived);
-    } else {
-      setIsReceived(false);
-    }
-
     getConversations();
   }, [selectedUser]);
 
-
   useEffect(() => {
     if (!selectedUser?.receiver_email) return;
-  
+
     // Join room or register this chat
     socket.emit("joinRoom", {
       sender: "tech@vindove.com", // Or currentUser.email
       receiver: selectedUser.receiver_email,
     });
-  
+
     // Listen for new messages
     socket.on("newMessage", (incomingMessage) => {
       setConversation((prev) => [...prev, incomingMessage]);
     });
-  
+
     return () => {
       socket.off("newMessage");
     };
@@ -217,11 +159,11 @@ export default function ChatBox() {
             {/* Right click context menu trigger */}
             <ToolTipWrapper>
               <RightClickContext user={selectedUser}>
-                <button className="flex items-center justify-center text-gray-500 cursor-pointer transition-all hover:opacity-70">
+                <div className="flex items-center justify-center text-gray-500 cursor-pointer transition-all hover:opacity-70">
                   <div className="rounded-full w-6 h-6 bg-blue-600 text-white flex items-center justify-center">
                     <Ellipsis className="w-4 h-4" />
                   </div>
-                </button>
+                </div>
               </RightClickContext>
             </ToolTipWrapper>
           </div>
@@ -232,17 +174,28 @@ export default function ChatBox() {
               conversation.map((msg) => (
                 <div key={msg.id} className="">
                   <MessageRightClickContext mailId={msg.id}>
-                  <ChatBubble
-                    messageId={msg.id}
-                    message={msg.message}
-                    timestamp={new Date(msg.created_at).toLocaleTimeString([], {
-                      hour: "2-digit",
-                      minute: "2-digit",
-                    })}
-                    userName={msg.sender_name || msg.sender_email}
-                    userAvatar={msg.sender_picture || "/placeholder.svg"}
-                    isReceived={msg.sender_email !== "tech@vindove.com"? true : false} // Adjust as needed
-                  />
+                    <ChatBubble
+                      messageId={msg.id}
+                      message={msg.message}
+                      timestamp={new Date(msg.created_at).toLocaleTimeString(
+                        [],
+                        {
+                          hour: "2-digit",
+                          minute: "2-digit",
+                        }
+                      )}
+                      userName={
+                        msg.sender_id !== currentUser.id
+                          ? msg.sender_name
+                          : currentUser.name
+                      }
+                      userAvatar={
+                        msg.sender_id !== currentUser.id
+                          ? msg.sender_picture || "/placeholder.svg"
+                          : currentUser.picture || "/placeholder.svg"
+                      }
+                      isReceived={msg.sender_id !== currentUser.id}
+                    />
                   </MessageRightClickContext>
                   <div ref={messagesEndRef} />
                 </div>
@@ -263,7 +216,7 @@ export default function ChatBox() {
           </div>
 
           {/* Message input */}
-          <ChatInput />
+          <ChatInput currentUser={currentUser} selectedUser={selectedUser} />
         </>
       ) : (
         <div className="flex justify-center items-center h-full">
@@ -273,5 +226,63 @@ export default function ChatBox() {
         </div>
       )}
     </div>
-  )
+  );
 }
+
+// {
+//   id: "0196200f-2be1-7333-b71b-8a1cec9d09e3",
+//   sender_id: 3731,
+//   sender_picture: "",
+//   sender_name: "",
+//   sender_email: "tech@vindove.com",
+//   receiver_id: 1046,
+//   receiver_picture:
+//     "https://profile11.s3.ca-central-1.amazonaws.com/2635010406",
+//   receiver_name: "ashish lakhani",
+//   receiver_email: "ashish7730@gmail.com",
+//   message: "Lets go again",
+//   document: null,
+//   archived_for: null,
+//   deleted_for: null,
+//   read_at: null,
+//   created_at: "2025-04-10T14:16:27.000000Z",
+//   updated_at: "2025-04-10T14:16:27.000000Z",
+// },
+// {
+//   id: "0196200c-4493-7125-928a-bf95ba6cc3fe",
+//   sender_id: 3731,
+//   sender_picture: "",
+//   sender_name: "",
+//   sender_email: "tech@vindove.com",
+//   receiver_id: 1046,
+//   receiver_picture:
+//     "https://profile11.s3.ca-central-1.amazonaws.com/2635010406",
+//   receiver_name: "ashish lakhani",
+//   receiver_email: "ashish7730@gmail.com",
+//   message: "Hello, hope this works",
+//   document: null,
+//   archived_for: null,
+//   deleted_for: null,
+//   read_at: null,
+//   created_at: "2025-04-10T14:13:17.000000Z",
+//   updated_at: "2025-04-10T14:13:17.000000Z",
+// },
+// {
+//   id: "0196200b-d6e4-7072-b38c-69697fd2bc73",
+//   sender_id: 3731,
+//   sender_picture: "",
+//   sender_name: "",
+//   sender_email: "tech@vindove.com",
+//   receiver_id: 1046,
+//   receiver_picture:
+//     "https://profile11.s3.ca-central-1.amazonaws.com/2635010406",
+//   receiver_name: "ashish lakhani",
+//   receiver_email: "ashish7730@gmail.com",
+//   message: "Hello, hope this works",
+//   document: null,
+//   archived_for: null,
+//   deleted_for: null,
+//   read_at: null,
+//   created_at: "2025-04-10T14:12:49.000000Z",
+//   updated_at: "2025-04-10T14:12:49.000000Z",
+// },

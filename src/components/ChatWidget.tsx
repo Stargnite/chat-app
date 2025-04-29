@@ -6,7 +6,8 @@ import EmailBox from "./EmailBox";
 import ComposeMailBox from "./ComposeMailBox";
 
 export default function ChatWidget() {
-  const { selectedUser, activeTab, isComposingMail, selectedMail } = useChatStore();
+  const { selectedUser, activeTab, isComposingMail, selectedMail } =
+    useChatStore();
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
@@ -24,7 +25,11 @@ export default function ChatWidget() {
           {/* <Sidebar />
           <ComposeMailBox /> */}
           {isMobile ? (
-            !selectedUser || !selectedMail ? <ComposeMailBox /> : <Sidebar />
+            !selectedUser || !selectedMail ? (
+              <ComposeMailBox />
+            ) : (
+              <Sidebar />
+            )
           ) : (
             <>
               <Sidebar />
@@ -41,15 +46,37 @@ export default function ChatWidget() {
       <div className="flex w-full max-w-[1280px] md:p-8 gap-x-5 h-[100vh] bg-transparent items-center md:items-end">
         {activeTab === "chat" ? (
           isMobile ? (
-            selectedUser ? <ChatBox /> : <Sidebar />
+            selectedUser ? (
+              <ChatBox
+                currentUser={{
+                  id: 3731,
+                  name: "Your Name",
+                  email: "tech@vindove.com",
+                  picture: "https://your-picture-url.com/avatar.jpg",
+                }}
+              />
+            ) : (
+              <Sidebar />
+            )
           ) : (
             <>
               <Sidebar />
-              <ChatBox />
+              <ChatBox
+                currentUser={{
+                  id: 3731,
+                  name: "Your Name",
+                  email: "tech@vindove.com",
+                  picture: "https://your-picture-url.com/avatar.jpg",
+                }}
+              />
             </>
           )
         ) : isMobile ? (
-          selectedMail ? <EmailBox /> : <Sidebar />
+          selectedMail ? (
+            <EmailBox />
+          ) : (
+            <Sidebar />
+          )
         ) : (
           <>
             <Sidebar />

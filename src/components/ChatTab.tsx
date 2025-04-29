@@ -28,7 +28,7 @@ const ChatTab = () => {
         const response = await axiosInstance.get("/api/v1/contacts");
         const data = response.data.data;
         setContacts(data);
-        console.log("Contacts fetched successfully:", data);
+        // console.log("Contacts fetched successfully:", data);
       } catch (err) {
         console.error("Error fetching contacts:", err);
       }
