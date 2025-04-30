@@ -6,15 +6,15 @@ import { Send, Paperclip, Smile, Mic } from "lucide-react";
 import axiosInstance from "@/api/api";
 
 const ChatInput = ({
-  currentUser,
+  // currentUser,
   selectedUser,
 }: {
-  currentUser: {
-    id: number;
-    name: string;
-    email: string;
-    picture: string;
-  };
+  // currentUser: {
+  //   id: number;
+  //   name: string;
+  //   email: string;
+  //   picture: string;
+  // };
   selectedUser: {
     receiver_id: string;
     receiver_name: string;

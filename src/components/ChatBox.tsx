@@ -217,7 +217,10 @@ export default function ChatBox({
           </div>
 
           {/* Message input */}
-          <ChatInput currentUser={currentUser} selectedUser={selectedUser} />
+          <ChatInput 
+          // currentUser={currentUser} 
+          selectedUser={selectedUser} 
+          />
         </>
       ) : (
         <div className="flex justify-center items-center h-full">

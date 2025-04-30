@@ -4,11 +4,11 @@ import { cn } from "../lib/utils";
 import ChatRightClickContext from "./ChatRightClickContext";
 import ChatCard from "./ChatCard";
 import axiosInstance from "@/api/api";
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useMemo } from "react";
 // import { ChatCardType } from "@/lib/types";
 
 const ChatTab = () => {
-  const [isLoading, setIsLoading] = useState(false);
+  // const [isLoading, setIsLoading] = useState(false);
 
   const {
     searchQuery,
@@ -22,16 +22,16 @@ const ChatTab = () => {
 
   useEffect(() => {
     const fetchContacts = async () => {
-      setIsLoading(true);
+      // setIsLoading(true);
       try {
         const response = await axiosInstance.get("/api/v1/contacts");
         const data = response.data.data;
         setContacts(data);
         console.log("Contacts fetched successfully:", data);
-        setIsLoading(false);
+        // setIsLoading(false);
       } catch (err) {
         console.error("Error fetching contacts:", err);
-        setIsLoading(false);
+        // setIsLoading(false);
       }
     };
     fetchContacts();
