@@ -4,13 +4,11 @@ import { cn } from "../lib/utils";
 import ChatRightClickContext from "./ChatRightClickContext";
 import ChatCard from "./ChatCard";
 import axiosInstance from "@/api/api";
-import { useEffect, 
-    // useState, 
-    useMemo } from "react";
+import { useEffect, useState, useMemo } from "react";
 // import { ChatCardType } from "@/lib/types";
 
 const ChatTab = () => {
-  //   const [contacts, setContacts] = useState<ChatCardType[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const {
     searchQuery,
@@ -24,17 +22,20 @@ const ChatTab = () => {
 
   useEffect(() => {
     const fetchContacts = async () => {
+      setIsLoading(true);
       try {
         const response = await axiosInstance.get("/api/v1/contacts");
         const data = response.data.data;
         setContacts(data);
-        // console.log("Contacts fetched successfully:", data);
+        console.log("Contacts fetched successfully:", data);
+        setIsLoading(false);
       } catch (err) {
         console.error("Error fetching contacts:", err);
+        setIsLoading(false);
       }
     };
     fetchContacts();
-  }, [setContacts, contacts]);
+  }, []);
 
   // Filter and sort messages
   // Filter and sort messages
@@ -87,6 +88,11 @@ const ChatTab = () => {
 
       {/* Chat list */}
       <div className="flex-1 overflow-y-auto">
+        {/* {isLoading && (
+          <div className="flex w-full items-center justify-center text-gray-700 py-5">
+            <span>Loading...</span>
+          </div>
+        )} */}
         {filteredMessages.map((user) => (
           <ChatRightClickContext key={user?.receiver_id} user={user}>
             <ChatCard

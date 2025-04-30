@@ -1,9 +1,9 @@
-// lib/socket.ts
-import { io } from "socket.io-client";
+// // lib/socket.ts
+// import { io } from "socket.io-client";
 
-const socket = io("http://localhost:5173", {
-  withCredentials: true, 
-  transports: ["websocket"],
-});
+// const socket = io("https://chat-api.vindove.com", {
+//   withCredentials: true, 
+//   transports: ["websocket"],
+// });
 
-export default socket;
+// export default socket;

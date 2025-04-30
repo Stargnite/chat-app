@@ -1,8 +1,8 @@
 import { useRef, useState } from "react";
-import { useChatStore } from "../lib/store";
+// import { useChatStore } from "../lib/store";
 import { Input } from "./ui/input";
 import { Send, Paperclip, Smile, Mic } from "lucide-react";
-import socket from "../lib/socket";
+// import socket from "../lib/socket";
 import axiosInstance from "@/api/api";
 
 const ChatInput = ({
@@ -22,7 +22,6 @@ const ChatInput = ({
     receiver_picture: string | null;
   };
 }) => {
-  const { messageData, setMessageData } = useChatStore();
   const [unSentText, setUnsentText] = useState("");
   const [isSending, setIsSending] = useState(false);
   const [attachedFile, setAttachedFile] = useState<File | null>(null);
@@ -30,41 +29,27 @@ const ChatInput = ({
 
   const handleSendMessage = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!unSentText.trim() && !attachedFile) return;
-    if (!messageData) return;
-
+ 
     const formData = new FormData();
-    formData.append("sender_id", currentUser.id.toString());
-    formData.append("sender_name",  currentUser.name);
-    formData.append("sender_email", currentUser.email);
-    formData.append("sender_picture", currentUser.picture || "");
-
-    formData.append("receiver_id", selectedUser.receiver_id.toString());
-    formData.append("receiver_name", selectedUser.receiver_name);
-    formData.append("receiver_email", selectedUser.receiver_email);
-    formData.append("receiver_picture", selectedUser.receiver_picture || "");
     formData.append("message", unSentText);
-    formData.append("document", attachedFile || "");
+    formData.append("identifier", selectedUser.receiver_email);
+    if (attachedFile) {
+      formData.append("document", attachedFile);
+    }
+
+    for (let pair of formData.entries()) {
+      console.log(`${pair[0]}:`, pair[1]);
+    }
 
     try {
       setIsSending(true);
-      const res = await axiosInstance.post(`/api/v1/message`, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
-
-      const data = res;
-
-      console.log("data gotten from the message post response>>>>>>>", data);
-
-      // Emit via socket
-      socket.emit("sendMessage", data.data);
-
-      // Reset input
+      const res = await axiosInstance.post(`/api/v1/message`, formData);
+      console.log("Send response>>>>>>>", res.data.message);
+      
       setUnsentText("");
       setAttachedFile(null);
-      setMessageData(null);
+      // Emit via socket
+      // socket.emit("sendMessage", data.data);
     } catch (err) {
       console.error("Failed to send message:", err);
     } finally {
@@ -84,17 +69,20 @@ const ChatInput = ({
   };
 
   return (
-    <form onSubmit={handleSendMessage}  className="flex space-x-4 items-center justify-center p-3 border-t border-gray-200">
-        <Paperclip
-          className="text-gray-700 cursor-pointer transition-all hover:text-blue-500"
-          onClick={handleFileClick}
-        />
-        <input
-          type="file"
-          ref={fileInputRef}
-          onChange={handleFileChange}
-          className="hidden"
-        />
+    <form
+      onSubmit={handleSendMessage}
+      className="flex space-x-4 items-center justify-center p-3 border-t border-gray-200"
+    >
+      <Paperclip
+        className="text-gray-700 cursor-pointer transition-all hover:text-blue-500"
+        onClick={handleFileClick}
+      />
+      <input
+        type="file"
+        ref={fileInputRef}
+        onChange={handleFileChange}
+        className="hidden"
+      />
       <div className="flex relative w-full">
         <Input
           type="text"
@@ -102,7 +90,7 @@ const ChatInput = ({
           className="flex-1 border border-gray-300 rounded-full focus:outline-none focus:ring-blue-500 p-2 text-gray-800"
           value={unSentText}
           onChange={(e) => setUnsentText(e.target.value)}
-          disabled={isSending}
+          // disabled={isSending}
         />
         <button
           type="submit"

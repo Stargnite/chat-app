@@ -51,7 +51,7 @@ export default function ChatWidget() {
                 currentUser={{
                   id: 3731,
                   name: "Your Name",
-                  email: "tech@vindove.com",
+                  email: "shubham18822@gmail.com",
                   picture: "https://your-picture-url.com/avatar.jpg",
                 }}
               />
@@ -65,7 +65,7 @@ export default function ChatWidget() {
                 currentUser={{
                   id: 3731,
                   name: "Your Name",
-                  email: "tech@vindove.com",
+                  email: "shubham18822@gmail.com",
                   picture: "https://your-picture-url.com/avatar.jpg",
                 }}
               />

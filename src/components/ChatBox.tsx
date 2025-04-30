@@ -7,7 +7,7 @@ import ToolTipWrapper from "./ToolTipWrapper";
 import ChatBubble from "./ChatBubble";
 import axiosInstance from "@/api/api";
 import { useEffect, useRef, useState } from "react";
-import socket from "../lib/socket";
+// import socket from "../lib/socket";
 import MessageRightClickContext from "./MessageRightClickContext";
 
 export default function ChatBox({
@@ -20,7 +20,7 @@ export default function ChatBox({
     picture: string;
   };
 }) {
-  const { selectedUser, setSelectedUser, messageData } = useChatStore();
+  const { selectedUser, setSelectedUser } = useChatStore();
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
   const [conversation, setConversation] = useState([
     {
@@ -42,50 +42,49 @@ export default function ChatBox({
       created_at: "2025-04-10T14:16:27.000000Z",
       updated_at: "2025-04-10T14:16:27.000000Z",
     },
-    {
-      id: "0196200c-4493-7125-928a-bf95ba6cc3fe",
-      sender_id: 3731,
-      sender_picture: "",
-      sender_name: "",
-      sender_email: "tech@vindove.com",
-      receiver_id: 1046,
-      receiver_picture:
-        "https://profile11.s3.ca-central-1.amazonaws.com/2635010406",
-      receiver_name: "ashish lakhani",
-      receiver_email: "ashish7730@gmail.com",
-      message: "Hello, hope this works",
-      document: null,
-      archived_for: null,
-      deleted_for: null,
-      read_at: null,
-      created_at: "2025-04-10T14:13:17.000000Z",
-      updated_at: "2025-04-10T14:13:17.000000Z",
-    },
-    {
-      id: "0196200b-d6e4-7072-b38c-69697fd2bc73",
-      sender_id: 3731,
-      sender_picture: "",
-      sender_name: "",
-      sender_email: "tech@vindove.com",
-      receiver_id: 1046,
-      receiver_picture:
-        "https://profile11.s3.ca-central-1.amazonaws.com/2635010406",
-      receiver_name: "ashish lakhani",
-      receiver_email: "ashish7730@gmail.com",
-      message: "Hello, hope this works",
-      document: null,
-      archived_for: null,
-      deleted_for: null,
-      read_at: null,
-      created_at: "2025-04-10T14:12:49.000000Z",
-      updated_at: "2025-04-10T14:12:49.000000Z",
-    },
+    // {
+    //   id: "0196200c-4493-7125-928a-bf95ba6cc3fe",
+    //   sender_id: 3731,
+    //   sender_picture: "",
+    //   sender_name: "",
+    //   sender_email: "tech@vindove.com",
+    //   receiver_id: 1046,
+    //   receiver_picture:
+    //     "https://profile11.s3.ca-central-1.amazonaws.com/2635010406",
+    //   receiver_name: "ashish lakhani",
+    //   receiver_email: "ashish7730@gmail.com",
+    //   message: "Hello, hope this works",
+    //   document: null,
+    //   archived_for: null,
+    //   deleted_for: null,
+    //   read_at: null,
+    //   created_at: "2025-04-10T14:13:17.000000Z",
+    //   updated_at: "2025-04-10T14:13:17.000000Z",
+    // },
+    // {
+    //   id: "0196200b-d6e4-7072-b38c-69697fd2bc73",
+    //   sender_id: 3731,
+    //   sender_picture: "",
+    //   sender_name: "",
+    //   sender_email: "tech@vindove.com",
+    //   receiver_id: 1046,
+    //   receiver_picture:
+    //     "https://profile11.s3.ca-central-1.amazonaws.com/2635010406",
+    //   receiver_name: "ashish lakhani",
+    //   receiver_email: "ashish7730@gmail.com",
+    //   message: "Hello, hope this works",
+    //   document: null,
+    //   archived_for: null,
+    //   deleted_for: null,
+    //   read_at: null,
+    //   created_at: "2025-04-10T14:12:49.000000Z",
+    //   updated_at: "2025-04-10T14:12:49.000000Z",
+    // },
   ]);
 
-  useEffect(() => {
+  const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [conversation, messageData]);
-
+  }
   useEffect(() => {
     const getConversations = async () => {
       try {
@@ -95,8 +94,7 @@ export default function ChatBox({
         const data = response.data.data;
 
         setConversation(data);
-        // console.log("conversations>>>>", conversation);
-
+        messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
         // console.log("Conversation for the selected user>>>>>>>>>>", data);
       } catch (error) {
         // console.log("error for fetching selectedUser's chats", error);
@@ -110,19 +108,20 @@ export default function ChatBox({
     if (!selectedUser?.receiver_email) return;
 
     // Join room or register this chat
-    socket.emit("joinRoom", {
-      sender: "tech@vindove.com", // Or currentUser.email
-      receiver: selectedUser.receiver_email,
-    });
+    // socket.emit("joinRoom", {
+    //   sender: "tech@vindove.com", // Or currentUser.email
+    //   receiver: selectedUser.receiver_email,
+    // });
 
     // Listen for new messages
-    socket.on("newMessage", (incomingMessage) => {
-      setConversation((prev) => [...prev, incomingMessage]);
-    });
+    // socket.on("newMessage", (incomingMessage) => {
+    //   setConversation((prev) => [...prev, incomingMessage]);
+    // });
 
-    return () => {
-      socket.off("newMessage");
-    };
+    // return () => {
+    //   socket.off("newMessage");
+    // };
+    scrollToBottom()
   }, [selectedUser]);
 
   return (
@@ -171,7 +170,9 @@ export default function ChatBox({
           {/* Chat messages */}
           <div className="flex-1 p-4 overflow-y-auto">
             {conversation.length > 0 ? (
-              conversation.map((msg) => (
+              conversation
+              .sort((a, b) => new Date(a.created_at).getTime() - new Date(b.created_at).getTime())
+              .map((msg) => (
                 <div key={msg.id} className="">
                   <MessageRightClickContext mailId={msg.id}>
                     <ChatBubble

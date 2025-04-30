@@ -25,7 +25,7 @@ const MessageRightClickContext = ({
           <div className="text-gray-500">
             <Reply className="w-5 h-5" />
           </div>
-          <p className="text-gray-800 font-semibold">Reply</p>
+          <p>Reply</p>
         </ContextMenuItem>
 
         <ContextMenuItem className="flex items-center gap-x-3 text-lg cursor-pointer hover:bg-gray-300 transition-all">
