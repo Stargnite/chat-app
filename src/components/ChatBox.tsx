@@ -130,7 +130,7 @@ export default function ChatBox({
 
   return (
     <div
-      className={`flex flex-col min-h-full md:min-h-[88vh] md:max-h-[88vh] w-[100vw] bg-white shadow-sm rounded-sm
+      className={`flex flex-col min-h-full md:min-h-[92vh] md:max-h-[90vh] w-[100vw] bg-white shadow-sm rounded-sm
       ${selectedUser ? "block" : "hidden"}`}
     >
       {selectedUser ? (

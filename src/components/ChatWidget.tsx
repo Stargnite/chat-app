@@ -5,7 +5,18 @@ import ChatBox from "./ChatBox";
 import EmailBox from "./EmailBox";
 import ComposeMailBox from "./ComposeMailBox";
 
-export default function ChatWidget() {
+export interface ChatUser {
+  id: number;
+  name: string;
+  email: string;
+  picture: string;
+}
+
+interface ChatWidgetProps {
+  currentUser: ChatUser;
+}
+
+export default function ChatWidget({ currentUser }: ChatWidgetProps) {
   const { selectedUser, activeTab, isComposingMail, selectedMail } =
     useChatStore();
   const [isMobile, setIsMobile] = useState(false);
@@ -47,14 +58,7 @@ export default function ChatWidget() {
         {activeTab === "chat" ? (
           isMobile ? (
             selectedUser ? (
-              <ChatBox
-                currentUser={{
-                  id: 3731,
-                  name: "Your Name",
-                  email: "shubham18822@gmail.com",
-                  picture: "https://your-picture-url.com/avatar.jpg",
-                }}
-              />
+              <ChatBox currentUser={currentUser} />
             ) : (
               <Sidebar />
             )
@@ -62,12 +66,7 @@ export default function ChatWidget() {
             <>
               <Sidebar />
               <ChatBox
-                currentUser={{
-                  id: 3731,
-                  name: "Your Name",
-                  email: "shubham18822@gmail.com",
-                  picture: "https://your-picture-url.com/avatar.jpg",
-                }}
+                currentUser={currentUser}
               />
             </>
           )

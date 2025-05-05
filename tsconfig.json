@@ -11,3 +11,31 @@
     }
   }
 }
+
+// {
+//   "compilerOptions": {
+//     "target": "ESNext",
+//     "module": "ESNext",
+//     "lib": ["DOM", "ESNext"],
+//     "declaration": true,
+//     "declarationDir": "dist",
+//     "outDir": "dist",
+//     "jsx": "react-jsx",
+//     "esModuleInterop": true,
+//     "moduleResolution": "Node",
+//     "skipLibCheck": true,
+//     "strict": true,
+//     "baseUrl": ".",
+//     "paths": {
+//       "@/*": ["./src/*"]
+//     }
+//   },
+//   "include": ["src"],
+//   "exclude": ["node_modules", "dist"],
+//     // "files": [],
+//   // "references": [
+//   //   { "path": "./tsconfig.app.json" },
+//   //   { "path": "./tsconfig.node.json" }
+//   // ],
+// }
+

@@ -35,7 +35,7 @@ export default function EmailBox() {
 
   return (
     <div
-      className={`flex flex-col min-h-full md:min-h-[88vh] md:max-h-[88vh] w-[100vw] bg-white shadow-sm rounded-sm
+      className={`flex flex-col min-h-full md:min-h-[91.5vh] md:max-h-[88vh] w-[100vw] bg-white shadow-sm rounded-sm
       ${selectedMail ? "block" : "hidden"}`}
     >
       {selectedMail ? (

@@ -1,13 +1,23 @@
-import './App.css'
+import "./App.css";
 
-import ChatWidget from './components/ChatWidget';
+import ChatWidget from "./components/ChatWidget";
 
 function App() {
   return (
     <>
-      <ChatWidget />  
+      <div className="">
+        <ChatWidget
+          currentUser={{
+            id: 3731,
+            name: "Your Name",
+            email: "shubham18822@gmail.com",
+            picture: "https://your-picture-url.com/avatar.jpg",
+          }}
+        />
+      </div>
     </>
-  )
+  );
 }
 
-export default App
+export { ChatWidget };
+export default App;
