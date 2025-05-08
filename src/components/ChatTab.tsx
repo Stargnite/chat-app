@@ -4,11 +4,11 @@ import { cn } from "../lib/utils";
 import ChatRightClickContext from "./ChatRightClickContext";
 import ChatCard from "./ChatCard";
 import axiosInstance from "@/api/api";
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 // import { ChatCardType } from "@/lib/types";
 
 const ChatTab = () => {
-  // const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const {
     searchQuery,
@@ -21,20 +21,20 @@ const ChatTab = () => {
   } = useChatStore();
 
   useEffect(() => {
-    const fetchContacts = async () => {
-      // setIsLoading(true);
+    (async function fetchContacts() {
       try {
+        setIsLoading(true);
         const response = await axiosInstance.get("/api/v1/contacts");
         const data = response.data.data;
         setContacts(data);
-        console.log("Contacts fetched successfully:", data);
-        // setIsLoading(false);
+        // console.log("Contacts fetched successfully:", data);
+        setIsLoading(false);
       } catch (err) {
         console.error("Error fetching contacts:", err);
-        // setIsLoading(false);
       }
-    };
-    fetchContacts();
+    })();
+    // fetchContacts();
+    setIsLoading(false);
   }, []);
 
   // Filter and sort messages
@@ -63,6 +63,14 @@ const ChatTab = () => {
           new Date(a.last_sent_at).getTime()
       );
   }, [contacts, searchQuery, messagesFilter]);
+
+  if (isLoading) {
+    return (
+      <div className="flex w-full items-center justify-center text-gray-700 py-5">
+        <span>Loading...</span>
+      </div>
+    );
+  }
 
   return (
     <>
