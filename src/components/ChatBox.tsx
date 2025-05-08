@@ -23,7 +23,7 @@ export default function ChatBox({
 }) {
   const { selectedUser, setSelectedUser } = useChatStore();
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
-  const [isLoading, setIsloading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [conversation, setConversation] = useState([
     {
       id: "0196200f-2be1-7333-b71b-8a1cec9d09e3",
@@ -54,6 +54,7 @@ export default function ChatBox({
     scrollToBottom();
     const getConversations = async () => {
       try {
+        setIsLoading(true);
         const response = await axiosInstance.get(
           `/api/v1/chat/${selectedUser?.receiver_email}`
         );
@@ -71,6 +72,7 @@ export default function ChatBox({
           scrollToBottom();
         });
 
+        setIsLoading(false)
         scrollToBottom();
         echo.connector.pusher.connection.bind('connected', () => {
           console.log('Connected to Reverb');
