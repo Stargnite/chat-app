@@ -117,7 +117,7 @@ export default function ChatBox({ currentUser }: ChatBoxProps) {
       {selectedUser ? (
         <>
           {/* Chat header */}
-          <div className="flex fixed w-full top-0 z-10 bg-white items-center justify-between px-4 py-3 border-b border-gray-200">
+          <div className="flex sticky w-full top-0 z-10 bg-white items-center justify-between px-4 py-3 border-b border-gray-200">
             <div className=" flex items-center">
               <ArrowLeft
                 className="h-5 w-5 mr-3 text-black cursor-pointer hover:text-gray-700 transition-all"
@@ -158,7 +158,7 @@ export default function ChatBox({ currentUser }: ChatBoxProps) {
               <span>Loading...</span>
             </div>
           ) : (
-            <div className="flex-1 p-4 overflow-y-auto my-10">
+            <div className="flex-1 p-4 overflow-y-auto">
               {currentUser.id && conversation.length > 0 ? (
                 conversation
                   .sort(
@@ -211,7 +211,7 @@ export default function ChatBox({ currentUser }: ChatBoxProps) {
           )}
 
           {/* Message input */}
-          <div className="fixed  w-full bottom-0 z-10 bg-white">
+          <div className="sticky w-full bottom-0 z-10 bg-white">
           <ChatInput
             // currentUser={currentUser}
             selectedUser={selectedUser}
