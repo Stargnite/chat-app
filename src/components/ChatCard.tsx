@@ -23,10 +23,11 @@ const ChatCard = ({ user, selectedUser, onUserSelect }: ChatCardProps) => {
         // message.unreadCount = 0
       }}
     >
-      <div className="relative h-10 w-10 mr-3 text-gray-600">
+      <div className="relative h-10 w-10 mr-3 text-gray-600 rounded-full">
         <img
            src={user.receiver_picture?.trim() ? user.receiver_picture : placeholderImg}
           alt={user.receiver_name}
+          className="rounded-full"
         />
         <div
           className={cn(

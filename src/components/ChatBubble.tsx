@@ -1,4 +1,5 @@
 import { Avatar } from "@/components/ui/avatar";
+import placeholderImg from "@/assets/dummyImgs/placeholder.png";
 // import { cn } from "@/lib/utils";
 
 interface ChatBubbleProps {
@@ -16,7 +17,7 @@ export default function ChatBubble({
   timestamp,
   userName,
   userAvatar,
-  isReceived = false,
+  isReceived,
 }: ChatBubbleProps) {
   // If it's a sent message, show the avatar and name
   // console.log(messageId)
@@ -37,8 +38,12 @@ export default function ChatBubble({
       <Avatar className="h-10 w-10 mr-3 bg-gray-400 flex-shrink-0">
         {userAvatar ? (
           <img
-            src={userAvatar || "/placeholder.svg"}
-            alt={userName || "User"}
+            src={
+              // userAvatar.trim() ? userAvatar : 
+              placeholderImg
+            }
+            alt={userName}
+            className="rounded-full"
           />
         ) : (
           <div className="w-full h-full flex items-center justify-center text-sm font-medium">

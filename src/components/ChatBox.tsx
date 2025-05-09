@@ -127,6 +127,7 @@ export default function ChatBox({ currentUser }: ChatBoxProps) {
                 <img
                   src={selectedUser.receiver_picture?.trim() ? selectedUser.receiver_picture : placeholderImg}
                   alt={selectedUser.receiver_name}
+                  className="rounded-full"
                 />
               </Avatar>
               <div>
@@ -188,7 +189,7 @@ export default function ChatBox({ currentUser }: ChatBoxProps) {
                               ? msg.sender_picture || "/placeholder.svg"
                               : currentUser.picture || "/placeholder.svg"
                           }
-                          isReceived={currentUser.id !== msg.sender_id}
+                          isReceived={String(currentUser.id) !== String(msg.sender_id)}
                         />
                       </MessageRightClickContext>
                       <div ref={messagesEndRef} />
