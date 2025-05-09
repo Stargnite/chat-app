@@ -19,5 +19,5 @@ function App() {
   );
 }
 
-export { ChatWidget };
+// export { ChatWidget };
 export default App;
