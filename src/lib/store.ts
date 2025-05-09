@@ -2,10 +2,20 @@ import { create } from 'zustand'
 import type { ChatTab, ChatCardType, MailCardType, Message } from './types'
 // import ChatCard from '@/components/ChatCard'
 
+export const defaultChatUser: ChatCardType = {
+  receiver_id: "",
+  receiver_name: "No User",
+  receiver_email: "",
+  receiver_picture: null,
+  last_message: "",
+  last_sent_at: "",
+  archived: false,
+};
+
 interface ChatStore {
   // State
   activeTab: ChatTab
-  selectedUser: ChatCardType | undefined
+  selectedUser: ChatCardType | null
   selectedMail: MailCardType | undefined
   searchQuery: string
   messagesFilter: 'all' | 'unread' | 'archived'
@@ -22,7 +32,7 @@ interface ChatStore {
 
   // Actions
   setActiveTab: (tab: ChatTab) => void
-  setSelectedUser: (user: ChatCardType | undefined) => void
+  setSelectedUser: (user: ChatCardType | null) => void
   setSelectedMail: (email: MailCardType | undefined) => void
   setSearchQuery: (query: string) => void
   setMessagesFilter: (filter: 'all' | 'unread' | 'archived') => void
@@ -38,7 +48,7 @@ interface ChatStore {
 export const useChatStore = create<ChatStore>((set, get) => ({
   // Initial state
   activeTab: 'chat',
-  selectedUser: undefined,
+  selectedUser: null,
   selectedMail: undefined,
   searchQuery: '',
   messagesFilter: 'all',

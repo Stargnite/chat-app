@@ -11,16 +11,16 @@ import { useEffect, useRef, useState } from "react";
 import MessageRightClickContext from "./MessageRightClickContext";
 import echo from "@/lib/echo";
 
-export default function ChatBox({
-  currentUser,
-}: {
+type ChatBoxProps = {
   currentUser: {
     id: number;
     name: string;
     email: string;
     picture: string;
   };
-}) {
+};
+
+export default function ChatBox({ currentUser }: ChatBoxProps) {
   const { selectedUser, setSelectedUser } = useChatStore();
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -51,50 +51,67 @@ export default function ChatBox({
   };
 
   useEffect(() => {
-    scrollToBottom();
+    if (!selectedUser?.receiver_email) return;
+
     const getConversations = async () => {
       try {
         setIsLoading(true);
         const response = await axiosInstance.get(
-          `/api/v1/chat/${selectedUser?.receiver_email}`
+          `/api/v1/chat/${selectedUser.receiver_email}`
         );
         const data = response.data.data;
-
         setConversation(data);
+        setIsLoading(false);
         scrollToBottom();
-
-        const channel = echo.channel(`chat.${selectedUser?.receiver_email}`);
-
-        channel.listen("MessageEvent", (event: any) => {
-          console.log("New message received from Reverb:", event);
-
-          setConversation((prev) => [...prev, event.message]); // Append message
-          scrollToBottom();
-        });
-
-        setIsLoading(false)
-        scrollToBottom();
-        echo.connector.pusher.connection.bind('connected', () => {
-          console.log('Connected to Reverb');
-        });
-        return () => {
-          channel.stopListening("MessageEvent");
-          echo.leave(`chat.${selectedUser?.receiver_id}`);
-        };
-
-        // console.log("Conversation for the selected user>>>>>>>>>>", data);
       } catch (error) {
-        // console.log("error for fetching selectedUser's chats", error);
+        console.error("Error fetching conversations:", error);
+        setIsLoading(false);
       }
     };
 
     getConversations();
-  }, [selectedUser, currentUser]);
+  }, [selectedUser?.receiver_email]);
+
+  useEffect(() => {
+    if (!selectedUser?.receiver_email) return;
+
+    const channel = echo.channel(`chat.${selectedUser.receiver_email}`);
+
+    channel.listen("MessageEvent", (event: any) => {
+      console.log("New message received from Reverb:", event);
+      setConversation((prev) => [...prev, event.message]);
+      scrollToBottomIfNearEnd();
+    });
+    scrollToBottomIfNearEnd();
+
+    echo.connector.pusher.connection.bind("connected", () => {
+      console.log("Connected to Reverb");
+    });
+
+    return () => {
+      channel.stopListening("MessageEvent");
+      echo.leave(`chat.${selectedUser.receiver_email}`);
+    };
+  }, [selectedUser?.receiver_email]);
+
+  const scrollToBottomIfNearEnd = () => {
+    const container = messagesEndRef.current?.parentNode as HTMLElement | null;
+    if (!container) return;
+
+    const isNearBottom =
+      container.scrollHeight - container.scrollTop - container.clientHeight <
+      150;
+
+    if (isNearBottom) {
+      messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
 
   return (
     <div
       className={`flex flex-col min-h-full md:min-h-[92vh] md:max-h-[90vh] w-[100vw] bg-white shadow-sm rounded-sm
-      ${selectedUser ? "block" : "hidden"}`}
+      ${selectedUser?.receiver_email ? "block" : "hidden"}`}
     >
       {selectedUser ? (
         <>
@@ -103,7 +120,7 @@ export default function ChatBox({
             <div className=" flex items-center">
               <ArrowLeft
                 className="h-5 w-5 mr-3 text-black cursor-pointer hover:text-gray-700 transition-all"
-                onClick={() => setSelectedUser(undefined)}
+                onClick={() => setSelectedUser(null)}
               />
               <Avatar className="h-8 w-8 mr-3">
                 <img
@@ -170,7 +187,7 @@ export default function ChatBox({
                               ? msg.sender_picture || "/placeholder.svg"
                               : currentUser.picture || "/placeholder.svg"
                           }
-                          isReceived={msg.sender_id !== currentUser.id}
+                          isReceived={currentUser.id !== msg.sender_id}
                         />
                       </MessageRightClickContext>
                       <div ref={messagesEndRef} />
@@ -208,3 +225,49 @@ export default function ChatBox({
     </div>
   );
 }
+
+
+
+
+
+
+ // useEffect(() => {
+  //   scrollToBottom();
+  //   const getConversations = async () => {
+  //     try {
+  //       setIsLoading(true);
+  //       const response = await axiosInstance.get(
+  //         `/api/v1/chat/${selectedUser?.receiver_email}`
+  //       );
+  //       const data = response.data.data;
+
+  //       setConversation(data);
+  //       scrollToBottom();
+
+  //       const channel = echo.channel(`chat.${selectedUser?.receiver_email}`);
+
+  //       channel.listen("MessageEvent", (event: any) => {
+  //         console.log("New message received from Reverb:", event);
+
+  //         setConversation((prev) => [...prev, event.message]); // Append message
+  //         scrollToBottom();
+  //       });
+
+  //       setIsLoading(false)
+  //       scrollToBottom();
+  //       echo.connector.pusher.connection.bind('connected', () => {
+  //         console.log('Connected to Reverb');
+  //       });
+  //       return () => {
+  //         channel.stopListening("MessageEvent");
+  //         echo.leave(`chat.${selectedUser?.receiver_id}`);
+  //       };
+
+  //       // console.log("Conversation for the selected user>>>>>>>>>>", data);
+  //     } catch (error) {
+  //       // console.log("error for fetching selectedUser's chats", error);
+  //     }
+  //   };
+
+  //   getConversations();
+  // }, [selectedUser, currentUser]);

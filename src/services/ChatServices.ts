@@ -8,7 +8,7 @@ export const archiveChat = async (userMail: string, is_archived: boolean | undef
     console.log("Chat archived successfully");
     is_archived = true;
     alert("Chat archived successfully");
-    return true;
+    return is_archived;
   } catch (err) {
     console.error("Error archiving chat:", err);
     return false;
@@ -21,7 +21,7 @@ export const unarchiveChat = async (userMail: string, is_archived: boolean | und
     is_archived = false;
     console.log("Chat unarchived successfully");
     alert("Chat unarchived successfully");
-    return true;
+    return is_archived;
   } catch (err) {
     console.error("Error unarchiving chat:", err);
     return false;
