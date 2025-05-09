@@ -10,7 +10,7 @@ import { useState } from "react";
 
 export default function Sidebar() {
   const { activeTab, setActiveTab, handleNewChat } = useChatStore();
-  const [isMinimized, setIsMinimized] = useState(true);
+  const [isMinimized, setIsMinimized] = useState(false);
 
   return (
     <div className="h-full md:h-auto">
