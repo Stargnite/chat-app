@@ -2,7 +2,6 @@ import { useRef, useState, FormEvent, ChangeEvent } from "react";
 import { Input } from "./ui/input";
 import { Send, Paperclip, Smile, Mic } from "lucide-react";
 import axiosInstance from "@/api/api";
-import { deleteMessage } from "@/services/ChatServices.ts";
 
 interface User {
   id: number;
