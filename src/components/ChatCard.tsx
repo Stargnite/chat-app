@@ -5,7 +5,7 @@ import { ChatCardType } from "./../lib/types";
 
 interface ChatCardProps {
   user: ChatCardType;
-  selectedUser?: ChatCardType;
+  selectedUser: ChatCardType | null;
   onUserSelect: (user: ChatCardType) => void;
 }
 
