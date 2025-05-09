@@ -116,7 +116,7 @@ export default function ChatBox({ currentUser }: ChatBoxProps) {
       {selectedUser ? (
         <>
           {/* Chat header */}
-          <div className="flex fixed w-full top-10 z-10 bg-white items-center justify-between px-4 py-3 border-b border-gray-200">
+          <div className="flex fixed w-full top-0 z-10 bg-white items-center justify-between px-4 py-3 border-b border-gray-200">
             <div className=" flex items-center">
               <ArrowLeft
                 className="h-5 w-5 mr-3 text-black cursor-pointer hover:text-gray-700 transition-all"
