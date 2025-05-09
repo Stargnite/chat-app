@@ -10,7 +10,7 @@ import { useEffect, useRef, useState } from "react";
 // import socket from "../lib/socket";
 import MessageRightClickContext from "./MessageRightClickContext";
 import echo from "@/lib/echo";
-import placeholderImg from "@/assets/dummyImgs/placeholder.png"
+import placeholderImg from "@/assets/dummyImgs/placeholder.png";
 
 type ChatBoxProps = {
   currentUser: {
@@ -108,7 +108,6 @@ export default function ChatBox({ currentUser }: ChatBoxProps) {
     }
   };
 
-
   return (
     <div
       className={`flex flex-col min-h-full md:min-h-[92vh] md:max-h-[90vh] w-[100vw] bg-white shadow-sm rounded-sm
@@ -125,7 +124,11 @@ export default function ChatBox({ currentUser }: ChatBoxProps) {
               />
               <Avatar className="h-8 w-8 mr-3">
                 <img
-                  src={selectedUser.receiver_picture?.trim() ? selectedUser.receiver_picture : placeholderImg}
+                  src={
+                    selectedUser.receiver_picture?.trim()
+                      ? selectedUser.receiver_picture
+                      : placeholderImg
+                  }
                   alt={selectedUser.receiver_name}
                   className="rounded-full"
                 />
@@ -169,7 +172,7 @@ export default function ChatBox({ currentUser }: ChatBoxProps) {
                   )
                   .map((msg) => (
                     <div key={msg.id} className="">
-                      <MessageRightClickContext mailId={msg.id}>
+                      <MessageRightClickContext mailId={msg.id} setConversation={setConversation}>
                         <ChatBubble
                           messageId={msg.id}
                           message={msg.message}
@@ -189,7 +192,9 @@ export default function ChatBox({ currentUser }: ChatBoxProps) {
                               ? msg.sender_picture || "/placeholder.svg"
                               : currentUser.picture || "/placeholder.svg"
                           }
-                          isReceived={String(currentUser.id) !== String(msg.sender_id)}
+                          isReceived={
+                            String(currentUser.id) !== String(msg.sender_id)
+                          }
                         />
                       </MessageRightClickContext>
                       <div ref={messagesEndRef} />
@@ -199,8 +204,13 @@ export default function ChatBox({ currentUser }: ChatBoxProps) {
                 <div className="flex flex-col items-center justify-center h-full text-gray-500 text-sm">
                   <Avatar className="h-20 w-20 mb-3">
                     <img
-                      src={selectedUser.receiver_picture || "/placeholder.svg"}
+                      src={
+                        selectedUser.receiver_picture?.trim()
+                          ? selectedUser.receiver_picture
+                          : placeholderImg
+                      }
                       alt={selectedUser.receiver_name}
+                      className="rounded-full"
                     />
                   </Avatar>
                   <p className="poppins-medium">
@@ -213,10 +223,10 @@ export default function ChatBox({ currentUser }: ChatBoxProps) {
 
           {/* Message input */}
           <div className="sticky w-full bottom-0 z-10 bg-white">
-          <ChatInput
-            // currentUser={currentUser}
-            selectedUser={selectedUser}
-          />
+            <ChatInput
+              // currentUser={currentUser}
+              selectedUser={selectedUser}
+            />
           </div>
         </>
       ) : (
@@ -229,49 +239,3 @@ export default function ChatBox({ currentUser }: ChatBoxProps) {
     </div>
   );
 }
-
-
-
-
-
-
- // useEffect(() => {
-  //   scrollToBottom();
-  //   const getConversations = async () => {
-  //     try {
-  //       setIsLoading(true);
-  //       const response = await axiosInstance.get(
-  //         `/api/v1/chat/${selectedUser?.receiver_email}`
-  //       );
-  //       const data = response.data.data;
-
-  //       setConversation(data);
-  //       scrollToBottom();
-
-  //       const channel = echo.channel(`chat.${selectedUser?.receiver_email}`);
-
-  //       channel.listen("MessageEvent", (event: any) => {
-  //         console.log("New message received from Reverb:", event);
-
-  //         setConversation((prev) => [...prev, event.message]); // Append message
-  //         scrollToBottom();
-  //       });
-
-  //       setIsLoading(false)
-  //       scrollToBottom();
-  //       echo.connector.pusher.connection.bind('connected', () => {
-  //         console.log('Connected to Reverb');
-  //       });
-  //       return () => {
-  //         channel.stopListening("MessageEvent");
-  //         echo.leave(`chat.${selectedUser?.receiver_id}`);
-  //       };
-
-  //       // console.log("Conversation for the selected user>>>>>>>>>>", data);
-  //     } catch (error) {
-  //       // console.log("error for fetching selectedUser's chats", error);
-  //     }
-  //   };
-
-  //   getConversations();
-  // }, [selectedUser, currentUser]);

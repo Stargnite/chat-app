@@ -11,11 +11,13 @@ import { deleteMessage } from "@/services/ChatServices";
 interface RightClickContextProps {
   children: React.ReactNode;
   mailId: string;
+  setConversation:React.Dispatch<React.SetStateAction<any[]>>
 }
 
 const MessageRightClickContext = ({
   mailId,
   children,
+  setConversation
 }: RightClickContextProps) => {
   return (
     <ContextMenu>
@@ -35,7 +37,16 @@ const MessageRightClickContext = ({
           <p>Forward</p>
         </ContextMenuItem>
         <ContextMenuItem
-          onClick={() => deleteMessage(mailId)}
+        onClick={async () => {
+          const success = await deleteMessage(mailId);
+          if (success) {
+            setConversation((prev) => prev.filter((msg) => msg.id !== mailId));
+          }
+        }}
+          // onClick={() => {
+          //   deleteMessage(mailId);
+          //   // setConversation(prev => prev.filter(msg => msg.id !== messageId));
+          // }}
           className="flex items-center gap-x-3 text-lg cursor-pointer hover:bg-gray-300 transition-all"
         >
           <div className="text-red-500">
