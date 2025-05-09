@@ -58,6 +58,7 @@ export default function ChatBubble({
           </span>
         )}
         <div className="flex flex-col items-end">
+          
           <div className="bg-gray-100 rounded-2xl rounded-tl-none py-2 px-4 max-w-full">
             <p className="text-gray-800">{message}</p>
           </div>

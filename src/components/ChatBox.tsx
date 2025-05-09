@@ -165,20 +165,24 @@ export default function ChatBox({ currentUser }: ChatBoxProps) {
             <div className="flex-1 p-4 overflow-y-auto">
               {currentUser.id && conversation.length > 0 ? (
                 conversation
-                  .sort(
-                    (a, b) =>
-                      new Date(a.created_at).getTime() -
-                      new Date(b.created_at).getTime()
-                  )
-                  .map((msg) => (
-                    <div key={msg.id} className="">
-                      <MessageRightClickContext mailId={msg.id} setConversation={setConversation}>
+                .sort(
+                  (a, b) =>
+                    new Date(a.created_at).getTime() - new Date(b.created_at).getTime()
+                )
+                .map((msg) => {
+                  const parsedDate = new Date(msg.created_at);
+                  if (isNaN(parsedDate.getTime())) return null; // skip rendering
+              
+                  return (
+                    <div key={msg.id}>
+                      <MessageRightClickContext
+                        mailId={msg.id}
+                        setConversation={setConversation}
+                      >
                         <ChatBubble
                           messageId={msg.id}
                           message={msg.message}
-                          timestamp={new Date(
-                            msg.created_at
-                          ).toLocaleTimeString([], {
+                          timestamp={parsedDate.toLocaleTimeString([], {
                             hour: "2-digit",
                             minute: "2-digit",
                           })}
@@ -192,14 +196,50 @@ export default function ChatBox({ currentUser }: ChatBoxProps) {
                               ? msg.sender_picture || "/placeholder.svg"
                               : currentUser.picture || "/placeholder.svg"
                           }
-                          isReceived={
-                            String(currentUser.id) !== String(msg.sender_id)
-                          }
+                          isReceived={String(currentUser.id) !== String(msg.sender_id)}
                         />
                       </MessageRightClickContext>
                       <div ref={messagesEndRef} />
                     </div>
-                  ))
+                  )
+                })
+              
+                // conversation
+                //   .sort(
+                //     (a, b) =>
+                //       new Date(a.created_at).getTime() -
+                //       new Date(b.created_at).getTime()
+                //   )
+                //   .map((msg) => (
+                //     <div key={msg.id} className="">
+                //       <MessageRightClickContext mailId={msg.id} setConversation={setConversation}>
+                //         <ChatBubble
+                //           messageId={msg.id}
+                //           message={msg.message}
+                //           timestamp={new Date(
+                //             msg.created_at
+                //           ).toLocaleTimeString([], {
+                //             hour: "2-digit",
+                //             minute: "2-digit",
+                //           })}
+                //           userName={
+                //             msg.sender_id !== currentUser.id
+                //               ? msg.sender_name
+                //               : currentUser.name
+                //           }
+                //           userAvatar={
+                //             msg.sender_id !== currentUser.id
+                //               ? msg.sender_picture || "/placeholder.svg"
+                //               : currentUser.picture || "/placeholder.svg"
+                //           }
+                //           isReceived={
+                //             String(currentUser.id) !== String(msg.sender_id)
+                //           }
+                //         />
+                //       </MessageRightClickContext>
+                //       <div ref={messagesEndRef} />
+                //     </div>
+                //   ))
               ) : (
                 <div className="flex flex-col items-center justify-center h-full text-gray-500 text-sm">
                   <Avatar className="h-20 w-20 mb-3">
@@ -224,8 +264,9 @@ export default function ChatBox({ currentUser }: ChatBoxProps) {
           {/* Message input */}
           <div className="sticky w-full bottom-0 z-10 bg-white">
             <ChatInput
-              // currentUser={currentUser}
+              currentUser={currentUser}
               selectedUser={selectedUser}
+              setConversation={setConversation}
             />
           </div>
         </>
