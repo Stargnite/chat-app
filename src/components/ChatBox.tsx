@@ -10,6 +10,7 @@ import { useEffect, useRef, useState } from "react";
 // import socket from "../lib/socket";
 import MessageRightClickContext from "./MessageRightClickContext";
 import echo from "@/lib/echo";
+import placeholderImg from "@/assets/dummyImgs/placeholder.png"
 
 type ChatBoxProps = {
   currentUser: {
@@ -92,7 +93,7 @@ export default function ChatBox({ currentUser }: ChatBoxProps) {
       channel.stopListening("MessageEvent");
       echo.leave(`chat.${selectedUser.receiver_email}`);
     };
-  }, [selectedUser?.receiver_email]);
+  }, [selectedUser?.receiver_email, conversation]);
 
   const scrollToBottomIfNearEnd = () => {
     const container = messagesEndRef.current?.parentNode as HTMLElement | null;
@@ -124,7 +125,7 @@ export default function ChatBox({ currentUser }: ChatBoxProps) {
               />
               <Avatar className="h-8 w-8 mr-3">
                 <img
-                  src={selectedUser.receiver_picture || "/placeholder.svg"}
+                  src={selectedUser.receiver_picture?.trim() ? selectedUser.receiver_picture : placeholderImg}
                   alt={selectedUser.receiver_name}
                 />
               </Avatar>
@@ -157,7 +158,7 @@ export default function ChatBox({ currentUser }: ChatBoxProps) {
               <span>Loading...</span>
             </div>
           ) : (
-            <div className="flex-1 p-4 overflow-y-auto">
+            <div className="flex-1 p-4 overflow-y-auto my-10">
               {currentUser.id && conversation.length > 0 ? (
                 conversation
                   .sort(

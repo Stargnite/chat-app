@@ -6,7 +6,7 @@ interface ChatBubbleProps {
   timestamp: string | undefined;
   userName?: string;
   userAvatar?: string | null;
-  isReceived?: boolean;
+  isReceived: boolean;
   messageId?: string;
 }
 
@@ -16,7 +16,7 @@ export default function ChatBubble({
   timestamp,
   userName,
   userAvatar,
-  isReceived,
+  isReceived = false,
 }: ChatBubbleProps) {
   // If it's a sent message, show the avatar and name
   // console.log(messageId)

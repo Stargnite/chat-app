@@ -2,6 +2,7 @@ import { cn } from "../lib/utils";
 // import { Badge } from "@/components/ui/badge"
 // import type { Message } from "./../lib/types"
 import { ChatCardType } from "./../lib/types";
+import placeholderImg from "@/assets/dummyImgs/placeholder.png"
 
 interface ChatCardProps {
   user: ChatCardType;
@@ -22,9 +23,9 @@ const ChatCard = ({ user, selectedUser, onUserSelect }: ChatCardProps) => {
         // message.unreadCount = 0
       }}
     >
-      <div className="relative h-10 w-10 mr-3">
+      <div className="relative h-10 w-10 mr-3 text-gray-600">
         <img
-          src={user.receiver_picture || "/placeholder.svg"}
+           src={user.receiver_picture?.trim() ? user.receiver_picture : placeholderImg}
           alt={user.receiver_name}
         />
         <div
