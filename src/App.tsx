@@ -1,6 +1,7 @@
 import "./App.css";
 
-import ChatWidget from "./components/ChatWidget";
+// import ChatWidget from "./components/ChatWidget";
+import {ChatWidget} from "vindove-chat-widget";
 
 function App() {
   return (

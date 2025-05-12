@@ -1,19 +1,55 @@
-# React + TypeScript + Vite
+# 🧠 Vindove Chat Widget
 
-After pulling the code from Gitlab,
+A React chat widget for instant integration into your app. Built with **TypeScript**, **TailwindCSS**, and designed for seamless developer experience.
 
-run this command to install the dependencies:
+---
 
-```js
-npm install
+## 📦 Installation
+
+Install the package via npm:
+
+```bash
+npm install vindove-chat-widget
 ```
 
-After the dependencies have been installed, run the app on the local host with the following code:
+## Importation
 
+Import the widget into your app:
+
+```bash
+import {ChatWidget} from "vindove-chat-widget";
 ```
-npm run dev
+
+## Props expectation
+
+The imported chatWidget is expecting the props of the user details with the following types:
+
+```bash
+1. id: number,
+2. name: string,
+3. email: string,
+4. picture: string,
 ```
 
-This will start the app on the local host at port 5137.
+## Usage 
 
-Then open the link in your web browser:  http://localhost:5173/
+This is how the Component should look like when it is implemented correctly:
+
+```bash
+<ChatWidget
+    currentUser={{
+    id: 3731,
+    name: "Your Name",
+    email: "shubham18822@gmail.com",
+    picture: "https://your-picture-url.com/avatar.jpg",
+    }}
+/>
+```
+
+# Features
+
+* ⚡ Fast and lightweight
+* 🎨 Tailwind-based design system
+* 🧩 Easily composable and extendable
+* 🔒 Built with TypeScript for safety
+* 🛠 Plug and play setup
