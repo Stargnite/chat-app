@@ -51,21 +51,4 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
-    build: {
-      lib: {
-        entry: 'src/index.ts',
-        name: 'ChatWidget',
-        fileName: (format) => `chat-widget.${format}.js`,
-        formats: ['es', 'cjs'],
-      },
-      rollupOptions: {
-        external: ['react', 'react-dom'],
-        output: {
-          globals: {
-            react: 'React',
-            'react-dom': 'ReactDOM',
-          },
-        },
-      },
-    },
 })
